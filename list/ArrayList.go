@@ -5,21 +5,13 @@ import (
 	"github.com/pkg/errors"
 )
 
-var require = func(a, b int) bool { return a >= b }
-var max = func(a, b int) int {
-	if a < b {
-		return b
-	}
-	return a
-}
-
 type ArrayList struct {
 	_storage []interface{}
 	_length  int
 	capacity int
 }
 
-func newArrayList(size int) ArrayList {
+func NewArrayList(size int) ArrayList {
 	return ArrayList{
 		_storage: make([]interface{}, size),
 		_length:  0,
@@ -28,14 +20,14 @@ func newArrayList(size int) ArrayList {
 }
 
 func (A *ArrayList) Get(index int) (interface{}, error) {
-	if require(index, A._length) {
+	if Require(index, A._length) {
 		return nil, errors.New("the index is out of bounds")
 	}
 	return A._storage[index], nil
 }
 
 func (A *ArrayList) Update(index int, element interface{}) error {
-	if require(index, A._length) {
+	if Require(index, A._length) {
 		return errors.New("the index is out of bounds")
 	}
 	A._storage[index] = element
@@ -43,8 +35,9 @@ func (A *ArrayList) Update(index int, element interface{}) error {
 }
 
 func (A *ArrayList) Reserve(newCapacity int) error {
-	if newCapacity >= A.capacity {
-		return errors.New("the reserve capacity is less than your original capacity")
+	//New capacity needs to be greater than the old one
+	if newCapacity <= A.capacity {
+		return errors.New("the reserve capacity is less than or equal to your original capacity")
 	}
 
 	oldStorage := A._storage
@@ -64,7 +57,10 @@ func (A *ArrayList) Insert(index int, element interface{}) error {
 	}
 
 	if A._length == A.capacity {
-		A.Reserve(max(2*A.capacity, 1))
+		err := A.Reserve(Max(2*A.capacity, 1))
+		if err != nil {
+			return err
+		}
 	}
 
 	i := A._length - 1
@@ -83,11 +79,17 @@ func (A *ArrayList) Remove(index int) (interface{}, error) {
 	}
 
 	val := A._storage[index]
-	i := index
-	for i < A._length {
+	for i := index; i < A._length-1; i++ {
 		A._storage[i] = A._storage[i+1]
-		i++
+		if i+2 == A._length {
+			A._storage[i+1] = nil
+		}
 	}
+
+	if index == A._length-1 {
+		A._storage[index] = nil
+	}
+
 	A._length--
 	return val, nil
 }
