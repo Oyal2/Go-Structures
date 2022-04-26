@@ -1,7 +1,7 @@
 package test_list
 
 import (
-	"Go-Structures/list"
+	"github.com/oyal2/Go-Structures/list"
 	"math/rand"
 	"time"
 
