@@ -1,4 +1,3 @@
-# Go-Structures
+# Go Structures <img src="https://user-images.githubusercontent.com/13637813/193483325-7b8b64c4-577d-43e1-a47c-ee0b75eb5bd0.png" width=300px align="right" >
 
-![New Project (5)](https://user-images.githubusercontent.com/13637813/193483053-05d0c067-a120-48dc-b158-59fad7fc6590.png)
 Golang Data structures
