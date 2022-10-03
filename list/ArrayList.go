@@ -1,8 +1,8 @@
 package list
 
 import (
+	"errors"
 	"fmt"
-	"github.com/pkg/errors"
 )
 
 type ArrayList struct {

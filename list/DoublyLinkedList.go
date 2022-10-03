@@ -53,6 +53,7 @@ func (Dl *Dnode) Update(index int, element interface{}) error {
 
 	if index == 0 {
 		Dl._value = element
+		return nil
 	}
 
 	currentNode := Dl._headNode
@@ -72,8 +73,8 @@ func (Dl *Dnode) Insert(index int, element interface{}) error {
 	newNode._value = element
 	//If the DL is empty
 	if *Dl._numberStored == 0 {
-		Dl._headNode = &newNode
-		Dl._tailNode = &newNode
+		Dl._headNode = Dl
+		Dl._tailNode = Dl
 		Dl._value = element
 		*Dl._numberStored++
 		newNode._numberStored = Dl._numberStored
