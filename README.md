@@ -9,7 +9,7 @@ Benchmark Specs
 goos: windows
 goarch: amd64
 cpu: AMD Ryzen 9 5950X 16-Core Processor     
-N Items: 10,000
+n items: 10,000
 ```
 ### ArrayList
 emirpasic/gods ArrayList:
