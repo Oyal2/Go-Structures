@@ -43,6 +43,6 @@ BenchmarkArrayListRemove10000     	    1029	   1180761 ns/op
 BenchmarkArrayListRemove100000    	      99	  12146458 ns/op
 ```
 
-![image](https://user-images.githubusercontent.com/13637813/195453636-174c4dbc-71b9-4725-99e8-a806a8d3d6d7.png)
+![image](https://user-images.githubusercontent.com/13637813/195453768-c6f0638c-cfff-412f-9dfe-2f406d6280c3.png)
 ![image](https://user-images.githubusercontent.com/13637813/195451740-8276f97e-f96b-40bc-abb7-104bb378b79a.png)
 
