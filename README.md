@@ -4,26 +4,29 @@ Golang Data structures
 
 ## Benchmarks
 
-emirpasic/gods ArrayList:
+Benchmark Specs 
 ```
 goos: windows
 goarch: amd64
-pkg: github.com/oyal2/Go-Structures/benchmark/GODS
-cpu: AMD Ryzen 9 5950X 16-Core Processor            
-BenchmarkInsert
-BenchmarkInsert-32    	     100	  40914992 ns/op
-BenchmarkGet
-BenchmarkGet-32       	1000000000	         0.9050 ns/op
+cpu: AMD Ryzen 9 5950X 16-Core Processor     
+```
+### ArrayList
+emirpasic/gods ArrayList:
+```      
+BenchmarkInsert   	       100	       41555013 ns/op
+BenchmarkGet        1000000000	          0.9050 ns/op
+BenchmarkUpdate    	 245901840	         4.935  ns/op
+BenchmarkRemove    	1000000000	         0.9305 ns/op
 ```
 
-oyal2/GoStructure ArrayList:
-```
-goos: windows
-goarch: amd64
-pkg: github.com/oyal2/Go-Structures/benchmark/Go_Structrures
-cpu: AMD Ryzen 9 5950X 16-Core Processor            
+GoStructure ArrayList:
+```       
 BenchmarkInsert
-BenchmarkInsert-32    	    2499	    405562 ns/op
+BenchmarkInsert-32    	    3433	    374162 ns/op
 BenchmarkGet
-BenchmarkGet-32       	1000000000	         0.9115 ns/op
+BenchmarkGet-32       	1000000000	         0.9045 ns/op
+BenchmarkUpdate
+BenchmarkUpdate-32    	539326327	         2.123 ns/op
+BenchmarkRemove
+BenchmarkRemove-32    	 3640387	       324.0 ns/op
 ```
