@@ -14,19 +14,15 @@ cpu: AMD Ryzen 9 5950X 16-Core Processor
 emirpasic/gods ArrayList:
 ```      
 BenchmarkInsert   	       100	       41555013 ns/op
-BenchmarkGet        1000000000	          0.9050 ns/op
+BenchmarkGet       	1000000000	         0.9050 ns/op
 BenchmarkUpdate    	 245901840	         4.935  ns/op
 BenchmarkRemove    	1000000000	         0.9305 ns/op
 ```
 
 GoStructure ArrayList:
 ```       
-BenchmarkInsert
-BenchmarkInsert-32    	    3433	    374162 ns/op
-BenchmarkGet
-BenchmarkGet-32       	1000000000	         0.9045 ns/op
-BenchmarkUpdate
-BenchmarkUpdate-32    	539326327	         2.123 ns/op
-BenchmarkRemove
-BenchmarkRemove-32    	 3640387	       324.0 ns/op
+BenchmarkInsert   	      3433	         374162 ns/op
+BenchmarkGet       	1000000000	         0.9045 ns/op
+BenchmarkUpdate    	 539326327	          2.090 ns/op
+BenchmarkRemove    	   3640387	          320.4 ns/op
 ```
