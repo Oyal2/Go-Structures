@@ -9,21 +9,40 @@ Benchmark Specs
 goos: windows
 goarch: amd64
 cpu: AMD Ryzen 9 5950X 16-Core Processor     
-n items: 10,000
 ```
 ### ArrayList
 emirpasic/gods ArrayList:
 ```      
-BenchmarkInsert   	       100	       41555013 ns/op
-BenchmarkGet       	1000000000	         0.9050 ns/op
-BenchmarkUpdate    	 245901840	         4.935  ns/op
-BenchmarkRemove    	1000000000	         0.9305 ns/op
+BenchmarkArrayListGet100          	21818300	        55.73 ns/op
+BenchmarkArrayListGet1000        	 2539680	       460.1 ns/op
+BenchmarkArrayListGet10000       	  266656	      4575 ns/op
+BenchmarkArrayListGet100000      	   25882	     45321 ns/op
+BenchmarkArrayListAdd100         	  489795	      2640 ns/op
+BenchmarkArrayListAdd1000        	   49704	     33146 ns/op
+BenchmarkArrayListAdd10000       	    3428	    429405 ns/op
+BenchmarkArrayListAdd100000       	     422	   3704970 ns/op
+BenchmarkArrayListRemove100      	44444937	        28.30 ns/op
+BenchmarkArrayListRemove1000      	 5106406	       231.0 ns/op
+BenchmarkArrayListRemove10000    	  524035	      2313 ns/op
+BenchmarkArrayListRemove100000    	       1	25059500300 ns/op
 ```
 
 GoStructure ArrayList:
 ```       
-BenchmarkInsert   	      3433	         374162 ns/op
-BenchmarkGet       	1000000000	         0.9045 ns/op
-BenchmarkUpdate    	 539326327	          2.090 ns/op
-BenchmarkRemove    	   3640387	          320.4 ns/op
+BenchmarkArrayListGet100          	42104228	        27.44 ns/op
+BenchmarkArrayListGet1000         	 5172422	       234.1 ns/op
+BenchmarkArrayListGet10000        	  521720	      2256 ns/op
+BenchmarkArrayListGet100000       	   53810	     22644 ns/op
+BenchmarkArrayListAdd100          	  694474	      2167 ns/op
+BenchmarkArrayListAdd1000         	   35397	     30313 ns/op
+BenchmarkArrayListAdd10000        	    3927	    262669 ns/op
+BenchmarkArrayListAdd100000       	     378	   2982804 ns/op
+BenchmarkArrayListRemove100       	  118226	     10057 ns/op
+BenchmarkArrayListRemove1000      	   10000	    114950 ns/op
+BenchmarkArrayListRemove10000     	    1029	   1180761 ns/op
+BenchmarkArrayListRemove100000    	      99	  12146458 ns/op
 ```
+
+![image](https://user-images.githubusercontent.com/13637813/195451731-8d990d5e-fc9d-4bd7-a7fa-22e5b4927538.png)
+![image](https://user-images.githubusercontent.com/13637813/195451740-8276f97e-f96b-40bc-abb7-104bb378b79a.png)
+
