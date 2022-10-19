@@ -20,14 +20,15 @@ func NewArrayList(size int) ArrayList {
 }
 
 func (A *ArrayList) Get(index int) (interface{}, error) {
-	if Require(index, A._length) {
+	if index < 0 || index >= A._length {
 		return nil, errors.New("the index is out of bounds")
 	}
+
 	return A._storage[index], nil
 }
 
 func (A *ArrayList) Update(index int, element interface{}) error {
-	if Require(index, A._length) {
+	if index < 0 || index >= A._length {
 		return errors.New("the index is out of bounds")
 	}
 	A._storage[index] = element
@@ -73,25 +74,29 @@ func (A *ArrayList) Insert(index int, element interface{}) error {
 	return nil
 }
 
-func (A *ArrayList) Remove(index int) (interface{}, error) {
-	if index < 0 || index > A._length {
+func (A *ArrayList) Remove(index int) (val interface{}, err error) {
+	if !(index < A._length && index >= 0) {
 		return nil, fmt.Errorf("index [%d] is out of bounds", index)
 	}
 
-	val := A._storage[index]
+	val = A._storage[index]
+	A._storage[index] = nil
+	if index == A._length-1 {
+		A._length--
+		return
+	}
+
 	for i := index; i < A._length-1; i++ {
-		A._storage[i] = A._storage[i+1]
-		if i+2 == A._length {
-			A._storage[i+1] = nil
+		if A._storage[i+1] != nil {
+			A._storage[i] = A._storage[i+1]
+		} else {
+			break
 		}
 	}
 
-	if index == A._length-1 {
-		A._storage[index] = nil
-	}
-
 	A._length--
-	return val, nil
+
+	return
 }
 
 func (A *ArrayList) Length() int { return A._length }

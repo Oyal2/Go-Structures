@@ -4,45 +4,51 @@ import (
 	"github.com/pkg/errors"
 )
 
-type Dnode struct {
-	_value        interface{}
-	_tailNode     *Dnode
-	_headNode     *Dnode
-	_next         *Dnode
-	_prev         *Dnode
+type DoublyLinkedList struct {
+	_tailNode     *Node
+	_headNode     *Node
 	_numberStored *int
 }
 
-func NewDoublyLinkedList() Dnode {
+type Node struct {
+	_value interface{}
+	_next  *Node
+	_prev  *Node
+}
+
+func NewDoublyLinkedList() *DoublyLinkedList {
 	i := 0
-	return Dnode{
-		_value:        nil,
-		_tailNode:     nil,
-		_headNode:     nil,
-		_next:         nil,
-		_prev:         nil,
+	return &DoublyLinkedList{
 		_numberStored: &i,
 	}
 }
 
-func (Dl *Dnode) Get(index int) (interface{}, error) {
-	if 0 > index || index >= *Dl._numberStored {
-		return nil, errors.New("the index is out of bounds")
-	}
+func (Dl *DoublyLinkedList) Get(index int) (interface{}, error) {
+	//if 0 > index || index >= *Dl._numberStored {
+	//	return nil, errors.New("the index is out of bounds")
+	//}
 	if index == *Dl._numberStored-1 {
 		//Retrieve the tail node value
 		return Dl._tailNode._value, nil
 	}
 
-	currentNode := Dl._headNode
-	for i := 0; i < index; i++ {
-		currentNode = currentNode._next
+	if Dl.Length()-index < index {
+		currentNode := Dl._tailNode
+		for i := Dl.Length() - 1; i != index; i-- {
+			currentNode = currentNode._prev
+		}
+		return currentNode._value, nil
+	} else {
+		currentNode := Dl._headNode
+		for i := 0; i < index; i++ {
+			currentNode = currentNode._next
+		}
+		return currentNode._value, nil
 	}
 
-	return currentNode._value, nil
 }
 
-func (Dl *Dnode) Update(index int, element interface{}) error {
+func (Dl *DoublyLinkedList) Update(index int, element interface{}) error {
 	if 0 > index || index >= *Dl._numberStored {
 		return errors.New("the index is out of bounds")
 	}
@@ -52,7 +58,7 @@ func (Dl *Dnode) Update(index int, element interface{}) error {
 	}
 
 	if index == 0 {
-		Dl._value = element
+		Dl._headNode._value = element
 		return nil
 	}
 
@@ -65,86 +71,88 @@ func (Dl *Dnode) Update(index int, element interface{}) error {
 	return nil
 }
 
-func (Dl *Dnode) Insert(index int, element interface{}) error {
+func (Dl *DoublyLinkedList) Insert(index int, element interface{}) error {
 	if 0 > index || index > *Dl._numberStored {
 		return errors.New("the index is out of bounds")
 	}
-	newNode := NewDoublyLinkedList()
-	newNode._value = element
+	newNode := &Node{
+		_value: element,
+	}
 	//If the DL is empty
 	if *Dl._numberStored == 0 {
-		Dl._headNode = Dl
-		Dl._tailNode = Dl
-		Dl._value = element
-		*Dl._numberStored++
-		newNode._numberStored = Dl._numberStored
-		return nil
+		Dl._headNode = newNode
+		Dl._tailNode = newNode
 	} else {
 		if index == 0 {
 			newNode._next = Dl._headNode
-			Dl._headNode = &newNode
-			Dl._headNode._prev = Dl._headNode
-		} else if index < *Dl._numberStored {
+			Dl._headNode._prev = newNode
+			Dl._headNode = newNode
+		} else if index == *Dl._numberStored {
+			newNode._prev = Dl._tailNode
+			Dl._tailNode._next = newNode
+			Dl._tailNode = newNode
+		} else if index >= *Dl._numberStored/2 {
+			currentNode := Dl._tailNode
+			for i := *Dl._numberStored - 1; index != i; i-- {
+				currentNode = currentNode._prev
+			}
+			newNode._next = currentNode
+			newNode._prev = currentNode._prev
+			newNode._prev._next = newNode
+			currentNode._prev = newNode
+		} else {
 			currentNode := Dl._headNode
-			for i := 0; i < (index - 1); i++ {
+			for i := 0; i < index-1; i++ {
 				currentNode = currentNode._next
 			}
-			newNode._next = currentNode._next
 			newNode._prev = currentNode
-			currentNode._next = &newNode
-		} else {
-			//Insert at tail
-			newNode._prev = Dl._tailNode
-			newNode._next = nil
-			newNode._headNode = Dl._headNode
-			Dl._tailNode._next = &newNode
-			Dl._tailNode = Dl._tailNode._next
-			if 1 == Dl.Length() {
-				Dl._next = Dl._tailNode
-			}
+			newNode._next = currentNode._next
+			newNode._next._prev = newNode
+			currentNode._next = newNode
 		}
-		*Dl._numberStored++
-		newNode._numberStored = Dl._numberStored
 	}
+	*Dl._numberStored++
 	return nil
 }
 
-func (Dl *Dnode) Remove(index int) (interface{}, error) {
+func (Dl *DoublyLinkedList) Remove(index int) (interface{}, error) {
 	if 0 > index || index >= *Dl._numberStored {
 		return nil, errors.New("the index is out of bounds")
 	}
-
+	var result interface{}
 	if *Dl._numberStored == 1 {
-		result := Dl._headNode._value
+		result = Dl._headNode._value
 		Dl._headNode = nil
 		Dl._tailNode = nil
-		*Dl._numberStored--
-		return result, nil
 	} else {
 		if index == 0 {
-			result := Dl._headNode._value
+			result = Dl._headNode._value
 			Dl._headNode = Dl._headNode._next
 			Dl._headNode._prev = nil
-			*Dl._numberStored--
-			return result, nil
 		} else if index == *Dl._numberStored-1 {
-			result := Dl._tailNode._value
+			result = Dl._tailNode._value
 			Dl._tailNode = Dl._tailNode._prev
 			Dl._tailNode._next = nil
-			*Dl._numberStored--
-			return result, nil
+		} else if index >= *Dl._numberStored/2 {
+			currentNode := Dl._tailNode
+			for i := *Dl._numberStored - 1; index != i; i-- {
+				currentNode = currentNode._prev
+			}
+			result = currentNode._value
+			currentNode._prev._next = currentNode._next
+			currentNode._next._prev = currentNode._prev
 		} else {
 			currentNode := Dl._headNode
-			for i := 0; i < (index - 1); i++ {
+			for i := 0; i != index; i++ {
 				currentNode = currentNode._next
 			}
-			result := currentNode._next._value
-			currentNode._next = currentNode._next._next
-			currentNode._next._prev = currentNode
-			*Dl._numberStored--
-			return result, nil
+			result = currentNode._value
+			currentNode._prev._next = currentNode._next
+			currentNode._next._prev = currentNode._prev
 		}
 	}
+	*Dl._numberStored--
+	return result, nil
 }
 
-func (Dl *Dnode) Length() int { return *Dl._numberStored }
+func (Dl *DoublyLinkedList) Length() int { return *Dl._numberStored }
