@@ -10,12 +10,6 @@ type DoublyLinkedList struct {
 	_numberStored *int
 }
 
-type Node struct {
-	_value interface{}
-	_next  *Node
-	_prev  *Node
-}
-
 func NewDoublyLinkedList() *DoublyLinkedList {
 	i := 0
 	return &DoublyLinkedList{
@@ -24,9 +18,9 @@ func NewDoublyLinkedList() *DoublyLinkedList {
 }
 
 func (Dl *DoublyLinkedList) Get(index int) (interface{}, error) {
-	//if 0 > index || index >= *Dl._numberStored {
-	//	return nil, errors.New("the index is out of bounds")
-	//}
+	if 0 > index || index >= *Dl._numberStored {
+		return nil, errors.New("the index is out of bounds")
+	}
 	if index == *Dl._numberStored-1 {
 		//Retrieve the tail node value
 		return Dl._tailNode._value, nil

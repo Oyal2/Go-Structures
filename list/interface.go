@@ -6,3 +6,9 @@ type List interface {
 	Remove(index int) (interface{}, error)
 	Length() int
 }
+
+type Node struct {
+	_value interface{}
+	_next  *Node
+	_prev  *Node
+}

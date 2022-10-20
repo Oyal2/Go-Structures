@@ -11,8 +11,8 @@ type ArrayList struct {
 	capacity int
 }
 
-func NewArrayList(size int) ArrayList {
-	return ArrayList{
+func NewArrayList(size int) *ArrayList {
+	return &ArrayList{
 		_storage: make([]interface{}, size),
 		_length:  0,
 		capacity: size,
