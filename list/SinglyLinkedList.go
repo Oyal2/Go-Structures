@@ -54,9 +54,9 @@ func (Sl *SinglyLinkedList) Update(index int, element interface{}) error {
 }
 
 func (Sl *SinglyLinkedList) Insert(index int, element interface{}) error {
-	//if 0 > index || index > Sl._numberStored {
-	//	return errors.New("the index is out of bounds")
-	//}
+	if 0 > index || index > Sl._numberStored {
+		return errors.New("the index is out of bounds")
+	}
 	newNode := Node{_value: element}
 	//If the SL is empty
 	if Sl._numberStored == 0 {
@@ -69,61 +69,64 @@ func (Sl *SinglyLinkedList) Insert(index int, element interface{}) error {
 	if index == 0 {
 		newNode._next = Sl._headNode
 		Sl._headNode = &newNode
+		Sl._numberStored++
+		return nil
 	}
 
 	if index == Sl._numberStored {
 		//Insert at tail
 		Sl._tailNode._next = &newNode
 		Sl._tailNode = &newNode
-	} else {
-		currentNode := Sl._headNode
-		for i := 0; i != index; i++ {
-			currentNode = currentNode._next
-		}
-		newNode._next = currentNode._next
-		currentNode._next = &newNode
+		Sl._numberStored++
+		return nil
 	}
+
+	currentNode := Sl._headNode
+	for i := 0; i != index; i++ {
+		currentNode = currentNode._next
+	}
+	newNode._next = currentNode._next
+	currentNode._next = &newNode
 
 	Sl._numberStored++
 	return nil
 }
 
 func (Sl *SinglyLinkedList) Remove(index int) (interface{}, error) {
-	if 0 > index || index >= Sl._numberStored {
+	if index >= 0 && index < Sl._numberStored {
 		return nil, errors.New("the index is out of bounds")
 	}
 
 	var result interface{}
 	if Sl._numberStored == 1 {
-		result = Sl._headNode._value
+		//result = Sl._headNode._value
 		Sl._headNode = nil
 		Sl._tailNode = nil
-		Sl._numberStored--
+		Sl._numberStored = 0
 		return result, nil
 	}
 
 	if index == 0 {
 		result = Sl._headNode._value
 		Sl._headNode = Sl._headNode._next
-	} else if index == Sl._numberStored-1 {
-		result = Sl._tailNode._value
-		currentNode := Sl._headNode
-		for i := 0; i != index-1; i++ {
-			currentNode = currentNode._next
-		}
+		Sl._numberStored--
+		return result, nil
+	}
+
+	currentNode := Sl._headNode
+	for e := 0; e != index; e, currentNode = e+1, currentNode._next {
+	}
+	result = currentNode._next._value
+	currentNode._next = currentNode._next._next
+
+	if index == Sl._numberStored-1 {
 		Sl._tailNode = currentNode
 		Sl._tailNode._next = nil
-	} else {
-		currentNode := Sl._headNode
-		for i := 0; i != index-1; i++ {
-			currentNode = currentNode._next
-		}
-		result = currentNode._next._value
-		currentNode._next = currentNode._next._next
 	}
 
 	Sl._numberStored--
 	return result, nil
+
 }
 
 func (Sl *SinglyLinkedList) Length() int { return Sl._numberStored }

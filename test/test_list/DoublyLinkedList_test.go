@@ -1,6 +1,7 @@
 package test_list
 
 import (
+	"fmt"
 	"github.com/oyal2/Go-Structures/list"
 	"math/rand"
 	"testing"
@@ -14,12 +15,16 @@ func TestDoublyLink(t *testing.T) {
 	newDl := list.NewDoublyLinkedList()
 
 	for i := 0; i < size; i++ {
-		randomNum := rand.Intn(1000)
-		err := newDl.Insert(newDl.Length(), randomNum)
+		//randomNum := rand.Intn(1000)
+		err := newDl.Insert(0, i)
 		if err != nil {
 			t.Error(err)
 		}
-		checkArr[i] = randomNum
+		checkArr[i] = i
+	}
+
+	for i, j := 0, len(checkArr)-1; i < j; i, j = i+1, j-1 {
+		checkArr[i], checkArr[j] = checkArr[j], checkArr[i]
 	}
 
 	for i := range checkArr {
@@ -27,10 +32,25 @@ func TestDoublyLink(t *testing.T) {
 		if err != nil {
 			t.Error(err)
 		}
-		if val != checkArr[i] {
+		checkItem := checkArr[i]
+		if val != checkItem {
 			t.Errorf("New DoublyLinked List was inserted incorrectly %d != %d", val, checkArr[i])
 		}
 	}
+}
+
+func TestCustom(t *testing.T) {
+	newDl := list.NewDoublyLinkedList()
+
+	for i := 0; i < 4; i++ {
+		//randomNum := rand.Intn(1000)
+		err := newDl.Insert(i, i)
+		if err != nil {
+			t.Error(err)
+		}
+	}
+	newDl.Insert(1, 4)
+	fmt.Println("goo")
 }
 
 func TestUpdate(t *testing.T) {
