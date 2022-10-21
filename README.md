@@ -46,3 +46,35 @@ BenchmarkArrayListRemove100000    	      99	  12146458 ns/op
 ![image](https://user-images.githubusercontent.com/13637813/195453768-c6f0638c-cfff-412f-9dfe-2f406d6280c3.png)
 ![image](https://user-images.githubusercontent.com/13637813/195451740-8276f97e-f96b-40bc-abb7-104bb378b79a.png)
 
+### SinglyLinked List
+emirpasic/gods SinglyLinked List:
+```      
+BenchmarkSinglyLinkedListGet100          	  436363	      2602 ns/op
+BenchmarkSinglyLinkedListGet1000         	    2757	    424012 ns/op
+BenchmarkSinglyLinkedListGet10000        	      25	  44679900 ns/op
+BenchmarkSinglyLinkedListGet100000       	       1	4524499900 ns/op
+BenchmarkSinglyLinkedListAdd100          	  196718	      6120 ns/op
+BenchmarkSinglyLinkedListAdd1000         	   21997	     56667 ns/op
+BenchmarkSinglyLinkedListAdd10000        	    2221	    591400 ns/op
+BenchmarkSinglyLinkedListAdd100000       	     212	   5780662 ns/op
+BenchmarkSinglyLinkedListRemove100       	 8856133	       135.4 ns/op
+BenchmarkSinglyLinkedListRemove1000      	  888882	      1313 ns/op
+BenchmarkSinglyLinkedListRemove10000     	   89887	     13144 ns/op
+BenchmarkSinglyLinkedListRemove100000    	    8888	    130794 ns/op
+```
+
+GoStructure SinglyLinked List:
+```       
+BenchmarkSinglyLinkedListGet100          	  444448	      2565 ns/op
+BenchmarkSinglyLinkedListGet1000         	    2962	    409858 ns/op
+BenchmarkSinglyLinkedListGet10000        	      25	  44960028 ns/op
+BenchmarkSinglyLinkedListGet100000       	       1	4552001100 ns/op
+BenchmarkSinglyLinkedListAdd100          	  200001	      5785 ns/op
+BenchmarkSinglyLinkedListAdd1000         	   15675	     64625 ns/op
+BenchmarkSinglyLinkedListAdd10000        	    1882	    849097 ns/op
+BenchmarkSinglyLinkedListAdd100000       	     156	   6519228 ns/op
+BenchmarkSinglyLinkedListRemove100       	  615418	      1995 ns/op
+BenchmarkSinglyLinkedListRemove1000      	   61380	     19916 ns/op
+BenchmarkSinglyLinkedListRemove10000     	    5454	    205904 ns/op
+BenchmarkSinglyLinkedListRemove100000    	     446	   2540357 ns/op
+```
