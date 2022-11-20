@@ -93,7 +93,7 @@ func (Sl *SinglyLinkedList) Insert(index int, element interface{}) error {
 }
 
 func (Sl *SinglyLinkedList) Remove(index int) (interface{}, error) {
-	if index >= 0 && index < Sl._numberStored {
+	if 0 > index || index > Sl._numberStored {
 		return nil, errors.New("the index is out of bounds")
 	}
 
