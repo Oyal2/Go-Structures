@@ -99,7 +99,7 @@ func (Sl *SinglyLinkedList) Remove(index int) (interface{}, error) {
 
 	var result interface{}
 	if Sl._numberStored == 1 {
-		//result = Sl._headNode._value
+		result = Sl._headNode._value
 		Sl._headNode = nil
 		Sl._tailNode = nil
 		Sl._numberStored = 0
