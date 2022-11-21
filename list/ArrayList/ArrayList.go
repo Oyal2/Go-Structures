@@ -1,8 +1,9 @@
-package list
+package ArrayList
 
 import (
 	"errors"
 	"fmt"
+	"github.com/oyal2/Go-Structures/list"
 )
 
 type ArrayList struct {
@@ -11,7 +12,7 @@ type ArrayList struct {
 	capacity int
 }
 
-func NewArrayList(size int) *ArrayList {
+func New(size int) *ArrayList {
 	return &ArrayList{
 		_storage: make([]interface{}, size),
 		_length:  0,
@@ -35,7 +36,7 @@ func (A *ArrayList) Update(index int, element interface{}) error {
 	return nil
 }
 
-func (A *ArrayList) Reserve(newCapacity int) error {
+func (A *ArrayList) reserve(newCapacity int) error {
 	//New capacity needs to be greater than the old one
 	if newCapacity <= A.capacity {
 		return errors.New("the reserve capacity is less than or equal to your original capacity")
@@ -58,7 +59,7 @@ func (A *ArrayList) Insert(index int, element interface{}) error {
 	}
 
 	if A._length == A.capacity {
-		err := A.Reserve(Max(2*A.capacity, 1))
+		err := A.reserve(list.Max(2*A.capacity, 1))
 		if err != nil {
 			return err
 		}
@@ -72,6 +73,43 @@ func (A *ArrayList) Insert(index int, element interface{}) error {
 	A._storage[index] = element
 	A._length++
 	return nil
+}
+
+//Appends the specified element(s) to the end of this list
+func (A *ArrayList) Add(elements ...interface{}) error {
+	for _, element := range elements {
+		err := A.Insert(A.Length(), element)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+//Removes all of the elements from this list.
+func (A *ArrayList) Clear() {
+	A._storage = make([]interface{}, A._length)
+	A._length = 0
+}
+
+// Contains Returns true if this list contains the specified element.
+func (A *ArrayList) Contains(element interface{}) bool {
+	for _, item := range A._storage {
+		if item == element {
+			return true
+		}
+	}
+	return false
+}
+
+// Returns the index of the first occurrence of the specified element in this list, or -1 if this list does not contain the element.
+func (A *ArrayList) IndexOf(element interface{}) int {
+	for i, item := range A._storage {
+		if item == element {
+			return i
+		}
+	}
+	return -1
 }
 
 func (A *ArrayList) Remove(index int) (val interface{}, err error) {

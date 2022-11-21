@@ -1,7 +1,6 @@
-package test_list
+package ArrayList
 
 import (
-	"github.com/oyal2/Go-Structures/list"
 	"math/rand"
 	"time"
 
@@ -13,7 +12,7 @@ func TestFillArray(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
 	size := rand.Intn(100)
 	checkArr := make([]int, size)
-	newArr := list.NewArrayList(size)
+	newArr := New(size)
 
 	for i := 0; i < size; i++ {
 		randomNum := rand.Intn(1000)
@@ -40,7 +39,7 @@ func TestGetIndex(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
 	size := rand.Intn(100)
 	checkArr := make([]int, size+1)
-	newArr := list.NewArrayList(size)
+	newArr := New(size)
 
 	for i := 0; i < size+1; i++ {
 		randomNum := rand.Intn(1000)
@@ -67,7 +66,7 @@ func TestOverFilledArray(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
 	size := rand.Intn(100)
 	checkArr := make([]int, size+1)
-	newArr := list.NewArrayList(size)
+	newArr := New(size)
 
 	for i := 0; i < size+1; i++ {
 		randomNum := rand.Intn(1000)
@@ -94,7 +93,7 @@ func TestDeleteMiddleIndexArray(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
 	size := rand.Intn(100)
 	checkArr := make([]int, size)
-	newArr := list.NewArrayList(size)
+	newArr := New(size)
 
 	for i := 0; i < size; i++ {
 		err := newArr.Insert(newArr.Length(), i)
@@ -132,7 +131,7 @@ func TestDeleteFirstIndexArray(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
 	size := rand.Intn(100)
 	checkArr := make([]int, size)
-	newArr := list.NewArrayList(size)
+	newArr := New(size)
 
 	for i := 0; i < size; i++ {
 		err := newArr.Insert(newArr.Length(), i)
@@ -170,7 +169,7 @@ func TestDeleteLastIndexArray(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
 	size := rand.Intn(100)
 	checkArr := make([]int, size)
-	newArr := list.NewArrayList(size)
+	newArr := New(size)
 
 	for i := 0; i < size; i++ {
 		err := newArr.Insert(newArr.Length(), i)
@@ -208,7 +207,7 @@ func TestUpdateAllOnes(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
 	size := 100
 	checkArr := make([]int, size)
-	newArr := list.NewArrayList(size)
+	newArr := New(size)
 
 	for i := 0; i < size; i++ {
 		err := newArr.Insert(newArr.Length(), i)

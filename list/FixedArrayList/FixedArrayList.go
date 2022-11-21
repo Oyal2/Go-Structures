@@ -1,8 +1,9 @@
-package list
+package FixedArrayList
 
 import (
 	"errors"
 	"fmt"
+	"github.com/oyal2/Go-Structures/list"
 )
 
 type FixedArrayList struct {
@@ -12,20 +13,20 @@ type FixedArrayList struct {
 
 func NewFixedArrayList(size int) FixedArrayList {
 	return FixedArrayList{
-		_storage: make([]interface{},size),
+		_storage: make([]interface{}, size),
 		_length:  0,
 	}
 }
 
 func (A *FixedArrayList) Get(index int) (interface{}, error) {
-	if Require(index, A._length) {
+	if list.Require(index, A._length) {
 		return nil, errors.New("the index is out of bounds")
 	}
 	return A._storage[index], nil
 }
 
 func (A *FixedArrayList) Set(index int, element interface{}) error {
-	if Require(index, A._length) {
+	if list.Require(index, A._length) {
 		return errors.New("the index is out of bounds")
 	}
 	A._storage[index] = element

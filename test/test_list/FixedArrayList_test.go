@@ -1,7 +1,7 @@
 package test_list
 
 import (
-	"github.com/oyal2/Go-Structures/list"
+	"github.com/oyal2/Go-Structures/list/FixedArrayList"
 	"math/rand"
 	"time"
 
@@ -13,7 +13,7 @@ func TestFillFixedArray(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
 	size := rand.Intn(100)
 	checkArr := make([]int, size)
-	newArr := list.NewFixedArrayList(size)
+	newArr := FixedArrayList.NewFixedArrayList(size)
 
 	for i := 0; i < size; i++ {
 		randomNum := rand.Intn(1000)
@@ -40,7 +40,7 @@ func TestGetFixedArrayIndex(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
 	size := rand.Intn(100)
 	checkArr := make([]int, size)
-	newArr := list.NewFixedArrayList(size)
+	newArr := FixedArrayList.NewFixedArrayList(size)
 
 	for i := 0; i < size; i++ {
 		randomNum := rand.Intn(1000)
@@ -67,7 +67,7 @@ func TestOverFilledFixedArray(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
 	size := rand.Intn(100)
 	checkArr := make([]int, size)
-	newArr := list.NewFixedArrayList(size)
+	newArr := FixedArrayList.NewFixedArrayList(size)
 
 	for i := 0; i < size; i++ {
 		randomNum := rand.Intn(1000)
@@ -88,7 +88,7 @@ func TestOverFilledFixedArray(t *testing.T) {
 		}
 	}
 
-	err := newArr.Insert(newArr.Length(),0)
+	err := newArr.Insert(newArr.Length(), 0)
 	if err == nil || err.Error() != "array capacity is full" {
 		t.Errorf(err.Error())
 	}
@@ -99,7 +99,7 @@ func TestUpdateAllOnesFixedArray(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
 	size := 100
 	checkArr := make([]int, size)
-	newArr := list.NewFixedArrayList(size)
+	newArr := FixedArrayList.NewFixedArrayList(size)
 
 	for i := 0; i < size; i++ {
 		err := newArr.Insert(newArr.Length(), i)
