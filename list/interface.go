@@ -1,14 +1,14 @@
 package list
 
-type List interface {
-	Get(index int) (interface{}, error)
-	Insert(index int, element interface{}) error
-	Remove(index int) (interface{}, error)
+type List[T comparable] interface {
+	Get(index int) (T, error)
+	Insert(index int, element T) error
+	Remove(index int) (T, error)
 	Length() int
 }
 
-type Node struct {
-	Value interface{}
-	Next  *Node
-	Prev  *Node
+type Node[T comparable] struct {
+	Value T
+	Next  *Node[T]
+	Prev  *Node[T]
 }

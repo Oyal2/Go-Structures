@@ -3,32 +3,33 @@ package ArrayList
 import (
 	"errors"
 	"fmt"
+
 	"github.com/oyal2/Go-Structures/list"
 )
 
-type ArrayList struct {
-	_storage []interface{}
+type ArrayList[T comparable] struct {
+	_storage []T
 	_length  int
 	capacity int
 }
 
-func New(size int) *ArrayList {
-	return &ArrayList{
-		_storage: make([]interface{}, size),
+func New[T comparable](size int) *ArrayList[T] {
+	return &ArrayList[T]{
+		_storage: make([]T, size),
 		_length:  0,
 		capacity: size,
 	}
 }
 
-func (A *ArrayList) Get(index int) (interface{}, error) {
+func (A *ArrayList[T]) Get(index int) (value T, err error) {
 	if index < 0 || index >= A._length {
-		return nil, errors.New("the index is out of bounds")
+		return value, errors.New("the index is out of bounds")
 	}
 
 	return A._storage[index], nil
 }
 
-func (A *ArrayList) Update(index int, element interface{}) error {
+func (A *ArrayList[T]) Update(index int, element T) error {
 	if index < 0 || index >= A._length {
 		return errors.New("the index is out of bounds")
 	}
@@ -36,14 +37,14 @@ func (A *ArrayList) Update(index int, element interface{}) error {
 	return nil
 }
 
-func (A *ArrayList) reserve(newCapacity int) error {
+func (A *ArrayList[T]) reserve(newCapacity int) error {
 	//New capacity needs to be greater than the old one
 	if newCapacity <= A.capacity {
 		return errors.New("the reserve capacity is less than or equal to your original capacity")
 	}
 
 	oldStorage := A._storage
-	A._storage = make([]interface{}, newCapacity)
+	A._storage = make([]T, newCapacity)
 
 	A.capacity = newCapacity
 	for index, element := range oldStorage {
@@ -53,7 +54,7 @@ func (A *ArrayList) reserve(newCapacity int) error {
 	return nil
 }
 
-func (A *ArrayList) Insert(index int, element interface{}) error {
+func (A *ArrayList[T]) Insert(index int, element T) error {
 	if index < 0 || index > A._length {
 		return fmt.Errorf("index [%d] is out of bounds", index)
 	}
@@ -75,8 +76,8 @@ func (A *ArrayList) Insert(index int, element interface{}) error {
 	return nil
 }
 
-//Appends the specified element(s) to the end of this list
-func (A *ArrayList) Add(elements ...interface{}) error {
+// Appends the specified element(s) to the end of this list
+func (A *ArrayList[T]) Add(elements ...T) error {
 	for _, element := range elements {
 		err := A.Insert(A.Length(), element)
 		if err != nil {
@@ -86,14 +87,14 @@ func (A *ArrayList) Add(elements ...interface{}) error {
 	return nil
 }
 
-//Removes all of the elements from this list.
-func (A *ArrayList) Clear() {
-	A._storage = make([]interface{}, A._length)
+// Removes all of the elements from this list.
+func (A *ArrayList[T]) Clear() {
+	A._storage = make([]T, A._length)
 	A._length = 0
 }
 
 // Contains Returns true if this list contains the specified element.
-func (A *ArrayList) Contains(element interface{}) bool {
+func (A *ArrayList[T]) Contains(element T) bool {
 	for _, item := range A._storage {
 		if item == element {
 			return true
@@ -103,7 +104,7 @@ func (A *ArrayList) Contains(element interface{}) bool {
 }
 
 // Returns the index of the first occurrence of the specified element in this list, or -1 if this list does not contain the element.
-func (A *ArrayList) IndexOf(element interface{}) int {
+func (A *ArrayList[T]) IndexOf(element T) int {
 	for i, item := range A._storage {
 		if item == element {
 			return i
@@ -112,20 +113,21 @@ func (A *ArrayList) IndexOf(element interface{}) int {
 	return -1
 }
 
-func (A *ArrayList) Remove(index int) (val interface{}, err error) {
+func (A *ArrayList[T]) Remove(index int) (value T, err error) {
 	if !(index < A._length && index >= 0) {
-		return nil, fmt.Errorf("index [%d] is out of bounds", index)
+		return value, fmt.Errorf("index [%d] is out of bounds", index)
 	}
 
-	val = A._storage[index]
-	A._storage[index] = nil
+	value = A._storage[index]
+	var empty T
+	A._storage[index] = empty
 	if index == A._length-1 {
 		A._length--
 		return
 	}
 
 	for i := index; i < A._length-1; i++ {
-		if A._storage[i+1] != nil {
+		if A._storage[i+1] != empty {
 			A._storage[i] = A._storage[i+1]
 		} else {
 			break
@@ -137,4 +139,4 @@ func (A *ArrayList) Remove(index int) (val interface{}, err error) {
 	return
 }
 
-func (A *ArrayList) Length() int { return A._length }
+func (A *ArrayList[T]) Length() int { return A._length }

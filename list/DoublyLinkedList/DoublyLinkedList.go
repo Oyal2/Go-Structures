@@ -5,20 +5,20 @@ import (
 	"github.com/pkg/errors"
 )
 
-type DoublyLinkedList struct {
-	_tailNode     *list.Node
-	_middleNode   *list.Node
-	_headNode     *list.Node
+type DoublyLinkedList[T comparable] struct {
+	_tailNode     *list.Node[T]
+	_middleNode   *list.Node[T]
+	_headNode     *list.Node[T]
 	_numberStored int
 }
 
-func New() *DoublyLinkedList {
-	return &DoublyLinkedList{}
+func New[T comparable]() *DoublyLinkedList[T] {
+	return &DoublyLinkedList[T]{}
 }
 
-func (Dl *DoublyLinkedList) Get(index int) (interface{}, error) {
+func (Dl *DoublyLinkedList[T]) Get(index int) (value T, err error) {
 	if 0 > index || index >= Dl._numberStored {
-		return nil, errors.New("the index is out of bounds")
+		return value, errors.New("the index is out of bounds")
 	}
 	if index == Dl._numberStored-1 {
 		//Retrieve the tail node value
@@ -41,7 +41,7 @@ func (Dl *DoublyLinkedList) Get(index int) (interface{}, error) {
 
 }
 
-func (Dl *DoublyLinkedList) Update(index int, element interface{}) error {
+func (Dl *DoublyLinkedList[T]) Update(index int, element T) error {
 	if 0 > index || index >= Dl._numberStored {
 		return errors.New("the index is out of bounds")
 	}
@@ -64,11 +64,11 @@ func (Dl *DoublyLinkedList) Update(index int, element interface{}) error {
 	return nil
 }
 
-func (Dl *DoublyLinkedList) Insert(index int, element interface{}) error {
+func (Dl *DoublyLinkedList[T]) Insert(index int, element T) error {
 	if 0 > index || index > Dl._numberStored {
 		return errors.New("the index is out of bounds")
 	}
-	newNode := &list.Node{
+	newNode := &list.Node[T]{
 		Value: element,
 	}
 	//If the DL is empty
@@ -110,11 +110,11 @@ func (Dl *DoublyLinkedList) Insert(index int, element interface{}) error {
 	return nil
 }
 
-func (Dl *DoublyLinkedList) Add(elements ...interface{}) error {
+func (Dl *DoublyLinkedList[T]) Add(elements ...T) error {
 	return Dl.Append(elements...)
 }
 
-func (Dl *DoublyLinkedList) Prepend(elements ...interface{}) error {
+func (Dl *DoublyLinkedList[T]) Prepend(elements ...T) error {
 	for _, element := range elements {
 		err := Dl.Insert(0, element)
 		if err != nil {
@@ -124,7 +124,7 @@ func (Dl *DoublyLinkedList) Prepend(elements ...interface{}) error {
 	return nil
 }
 
-func (Dl *DoublyLinkedList) Append(elements ...interface{}) error {
+func (Dl *DoublyLinkedList[T]) Append(elements ...T) error {
 	for _, element := range elements {
 		err := Dl.Insert(Dl.Length(), element)
 		if err != nil {
@@ -134,7 +134,7 @@ func (Dl *DoublyLinkedList) Append(elements ...interface{}) error {
 	return nil
 }
 
-func (Dl *DoublyLinkedList) Contains(element interface{}) bool {
+func (Dl *DoublyLinkedList[T]) Contains(element T) bool {
 	currentNode := Dl._headNode
 	for currentNode != nil {
 		if currentNode.Value == element {
@@ -145,7 +145,7 @@ func (Dl *DoublyLinkedList) Contains(element interface{}) bool {
 	return false
 }
 
-func (Dl *DoublyLinkedList) IndexOf(element interface{}) int {
+func (Dl *DoublyLinkedList[T]) IndexOf(element T) int {
 	currentNode := Dl._headNode
 	for i := 0; currentNode != nil; i++ {
 		if currentNode.Value == element {
@@ -156,22 +156,22 @@ func (Dl *DoublyLinkedList) IndexOf(element interface{}) int {
 	return -1
 }
 
-func (Dl *DoublyLinkedList) Clear() {
+func (Dl *DoublyLinkedList[T]) Clear() {
 	Dl._headNode = nil
 	Dl._tailNode = nil
 	Dl._middleNode = nil
 	Dl._numberStored = 0
 }
 
-func (Dl *DoublyLinkedList) Empty() bool {
+func (Dl *DoublyLinkedList[T]) Empty() bool {
 	return Dl.Length() == 0
 }
 
-func (Dl *DoublyLinkedList) Remove(index int) (interface{}, error) {
+func (Dl *DoublyLinkedList[T]) Remove(index int) (value T, err error) {
 	if 0 > index || index >= Dl._numberStored {
-		return nil, errors.New("the index is out of bounds")
+		return value, errors.New("the index is out of bounds")
 	}
-	var result interface{}
+	var result T
 	if Dl._numberStored == 1 {
 		result = Dl._headNode.Value
 		Dl._headNode = nil
@@ -207,4 +207,4 @@ func (Dl *DoublyLinkedList) Remove(index int) (interface{}, error) {
 	return result, nil
 }
 
-func (Dl *DoublyLinkedList) Length() int { return Dl._numberStored }
+func (Dl *DoublyLinkedList[T]) Length() int { return Dl._numberStored }

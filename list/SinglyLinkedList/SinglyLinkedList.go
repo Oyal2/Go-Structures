@@ -2,22 +2,23 @@ package SinglyLinkedList
 
 import (
 	"errors"
+
 	"github.com/oyal2/Go-Structures/list"
 )
 
-type SinglyLinkedList struct {
-	_tailNode     *list.Node
-	_headNode     *list.Node
+type SinglyLinkedList[T comparable] struct {
+	_tailNode     *list.Node[T]
+	_headNode     *list.Node[T]
 	_numberStored int
 }
 
-func New() *SinglyLinkedList {
-	return &SinglyLinkedList{}
+func New[T comparable]() *SinglyLinkedList[T] {
+	return &SinglyLinkedList[T]{}
 }
 
-func (Sl *SinglyLinkedList) Get(index int) (interface{}, error) {
+func (Sl *SinglyLinkedList[T]) Get(index int) (value T, err error) {
 	if 0 > index || index >= Sl._numberStored {
-		return nil, errors.New("the index is out of bounds")
+		return value, errors.New("the index is out of bounds")
 	}
 	if index == Sl._numberStored-1 {
 		//Retrieve the tail node value
@@ -32,7 +33,7 @@ func (Sl *SinglyLinkedList) Get(index int) (interface{}, error) {
 	return currentNode.Value, nil
 }
 
-func (Sl *SinglyLinkedList) Update(index int, element interface{}) error {
+func (Sl *SinglyLinkedList[T]) Update(index int, element T) error {
 	if 0 > index || index >= Sl._numberStored {
 		return errors.New("the index is out of bounds")
 	}
@@ -54,11 +55,11 @@ func (Sl *SinglyLinkedList) Update(index int, element interface{}) error {
 	return nil
 }
 
-func (Sl *SinglyLinkedList) Insert(index int, element interface{}) error {
+func (Sl *SinglyLinkedList[T]) Insert(index int, element T) error {
 	if 0 > index || index > Sl._numberStored {
 		return errors.New("the index is out of bounds")
 	}
-	newNode := list.Node{Value: element}
+	newNode := list.Node[T]{Value: element}
 	//If the SL is empty
 	if Sl._numberStored == 0 {
 		Sl._headNode = &newNode
@@ -93,11 +94,11 @@ func (Sl *SinglyLinkedList) Insert(index int, element interface{}) error {
 	return nil
 }
 
-func (Sl *SinglyLinkedList) Add(elements ...interface{}) error {
+func (Sl *SinglyLinkedList[T]) Add(elements ...T) error {
 	return Sl.Append(elements...)
 }
 
-func (Sl *SinglyLinkedList) Prepend(elements ...interface{}) error {
+func (Sl *SinglyLinkedList[T]) Prepend(elements ...T) error {
 	for _, element := range elements {
 		err := Sl.Insert(0, element)
 		if err != nil {
@@ -107,7 +108,7 @@ func (Sl *SinglyLinkedList) Prepend(elements ...interface{}) error {
 	return nil
 }
 
-func (Sl *SinglyLinkedList) Append(elements ...interface{}) error {
+func (Sl *SinglyLinkedList[T]) Append(elements ...T) error {
 	for _, element := range elements {
 		err := Sl.Insert(Sl.Length(), element)
 		if err != nil {
@@ -117,7 +118,7 @@ func (Sl *SinglyLinkedList) Append(elements ...interface{}) error {
 	return nil
 }
 
-func (Sl *SinglyLinkedList) Contains(element interface{}) bool {
+func (Sl *SinglyLinkedList[T]) Contains(element T) bool {
 	currentNode := Sl._headNode
 	for currentNode != nil {
 		if currentNode.Value == element {
@@ -128,7 +129,7 @@ func (Sl *SinglyLinkedList) Contains(element interface{}) bool {
 	return false
 }
 
-func (Sl *SinglyLinkedList) IndexOf(element interface{}) int {
+func (Sl *SinglyLinkedList[T]) IndexOf(element T) int {
 	currentNode := Sl._headNode
 	for i := 0; currentNode != nil; i++ {
 		if currentNode.Value == element {
@@ -139,22 +140,22 @@ func (Sl *SinglyLinkedList) IndexOf(element interface{}) int {
 	return -1
 }
 
-func (Sl *SinglyLinkedList) Clear() {
+func (Sl *SinglyLinkedList[T]) Clear() {
 	Sl._headNode = nil
 	Sl._tailNode = nil
 	Sl._numberStored = 0
 }
 
-func (Sl *SinglyLinkedList) Empty() bool {
+func (Sl *SinglyLinkedList[T]) Empty() bool {
 	return Sl.Length() == 0
 }
 
-func (Sl *SinglyLinkedList) Remove(index int) (interface{}, error) {
+func (Sl *SinglyLinkedList[T]) Remove(index int) (value T, err error) {
 	if 0 > index || index >= Sl._numberStored {
-		return nil, errors.New("the index is out of bounds")
+		return value, errors.New("the index is out of bounds")
 	}
 
-	var result interface{}
+	var result T
 	if Sl._numberStored == 1 {
 		result = Sl._headNode.Value
 		Sl._headNode = nil
@@ -187,4 +188,4 @@ func (Sl *SinglyLinkedList) Remove(index int) (interface{}, error) {
 
 }
 
-func (Sl *SinglyLinkedList) Length() int { return Sl._numberStored }
+func (Sl *SinglyLinkedList[T]) Length() int { return Sl._numberStored }

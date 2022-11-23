@@ -2,40 +2,40 @@ package queue
 
 import "github.com/oyal2/Go-Structures/list"
 
-type Stack struct {
-	_list list.List
+type Stack[T comparable] struct {
+	_list list.List[T]
 }
 
-func NewStackGeneric(list list.List) Stack {
-	return Stack{
+func NewStackGeneric[T comparable](list list.List[T]) Stack[T] {
+	return Stack[T]{
 		_list: list,
 	}
 }
 
-func (S *Stack) Push(element interface{}) error {
+func (S *Stack[T]) Push(element T) error {
 	err := S._list.Insert(S._list.Length(), element)
 	return err
 }
 
-func (S *Stack) Top() (interface{},error) {
-	val,err := S._list.Get(S._list.Length() - 1)
-	return val,err
+func (S *Stack[T]) Top() (T, error) {
+	val, err := S._list.Get(S._list.Length() - 1)
+	return val, err
 }
 
-func (S *Stack) Pop() (interface{},error) {
-	val,err := S._list.Remove(S._list.Length() - 1)
-	return val,err
+func (S *Stack[T]) Pop() (T, error) {
+	val, err := S._list.Remove(S._list.Length() - 1)
+	return val, err
 }
 
-func (S *Stack) isEmpty() bool {
+func (S *Stack[T]) isEmpty() bool {
 	return S._list.Length() == 0
 }
 
-func (S *Stack) Length() int {
+func (S *Stack[T]) Length() int {
 	return S._list.Length()
 }
 
-func (S *Stack) Get(index int) (interface{},error) {
-	val,err := S._list.Get(index)
-	return val,err
+func (S *Stack[T]) Get(index int) (T, error) {
+	val, err := S._list.Get(index)
+	return val, err
 }
