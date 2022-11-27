@@ -2,6 +2,31 @@
 
 Golang Data structures
 
+## Data Structures
+### Lists
+
+- [x] ArrayList
+- [x] Singly-Linked List
+- [x] Doubly-Linked List
+- [x] Fixed Array List
+
+### Tree
+- [x] AVL Tree
+- [ ] B-Tree
+- [ ] Trei
+
+### Hashed Data Structures
+- [ ] Bloom Filter
+- [ ] Hash Table
+
+### Heap
+- [ ] Heap
+- [ ] Fibonacci Heap
+
+### Others
+- [x] Queue
+- [x] Stack
+
 ## Benchmarks
 
 Benchmark Specs 
