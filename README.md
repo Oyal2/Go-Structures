@@ -16,7 +16,7 @@ Golang Data structures
 - [ ] Trei
 
 ### Hashed Data Structures
-- [ ] Bloom Filter
+- [x] Bloom Filter
 - [ ] Hash Table
 
 ### Heap
