@@ -222,7 +222,7 @@ type Node[T comparable] struct {
 
 #### Singly Linked List
 
-A [List](https://en.wikipedia.org/wiki/Linked_list#Singly_linked_list) where each node contains an element and points to the next node
+A [List](https://en.wikipedia.org/wiki/Linked_list#Singly_linked_list) where each [node](https://github.com/Oyal2/Go-Structures#node-type) contains an element and points to the next node
 ```go
 package main
 
@@ -260,7 +260,7 @@ func main() {
 
 #### Doubly Linked List
 
-A [List](https://en.wikipedia.org/wiki/Doubly_linked_list) where each node contains an element and points to the next node and the preceeding node.
+A [List](https://en.wikipedia.org/wiki/Doubly_linked_list) where each [node](https://github.com/Oyal2/Go-Structures#node-type) contains an element and points to the next node and the preceeding node.
 ```go
 package main
 
