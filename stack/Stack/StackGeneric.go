@@ -1,4 +1,4 @@
-package queue
+package Stack
 
 import "github.com/oyal2/Go-Structures/list"
 
@@ -6,7 +6,7 @@ type Stack[T comparable] struct {
 	_list list.List[T]
 }
 
-func NewStackGeneric[T comparable](list list.List[T]) Stack[T] {
+func New[T comparable](list list.List[T]) Stack[T] {
 	return Stack[T]{
 		_list: list,
 	}
@@ -27,7 +27,7 @@ func (S *Stack[T]) Pop() (T, error) {
 	return val, err
 }
 
-func (S *Stack[T]) isEmpty() bool {
+func (S *Stack[T]) IsEmpty() bool {
 	return S._list.Length() == 0
 }
 

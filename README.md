@@ -30,6 +30,8 @@
   - [Node Type](#node-type)
     - [Singly Linked List](#singly-linked-list)
     - [Doubly Linked List](#doubly-linked-list)
+  - [Queue](#queue)
+    - [Generic Queue](#generic-queue)
 
 ## 🧐 About <a name = "about"></a>
 I made this library because Golang has a very limited amount of data structures. I implemented various data structures such as ArrayList, Queue, DoublyLinked List, SinglyLinked List, and many more. There are many complex data structures in this library and some basic ones. All Golang data structures are optimized and are generic classes. 
@@ -162,22 +164,22 @@ import (
 
 func main() {
 	list := ArrayList.New[int](3)
-	list.Add(1)                           // [1]
-	list.Add(2,3)                         // [1,2,3]
-	_, _ = list.Get(0)                    // 1,nil
-	_, _ = list.Get(100)                  // nil,the index is out of bounds
-	_ = list.Contains(1)                  // true
-	_ = list.Contains(4)                  // false
-	_,_ = list.Remove(2)                  // 3,nil
-	_,_ = list.Remove(1)                  // 2,nil
-	_,_ = list.Remove(0)                  // 1,nil
-	_,_ = list.Remove(0)                  // nil,index 0 is out of bounds
-	_ = list.Empty()                      // true
+	list.Add(1)                             // [1]
+	list.Add(2,3)                           // [1,2,3]
+	_, _ = list.Get(0)                      // 1,nil
+	_, _ = list.Get(100)                    // nil,the index is out of bounds
+	_ = list.Contains(1)                    // true
+	_ = list.Contains(4)                    // false
+	_,_ = list.Remove(2)                    // 3,nil
+	_,_ = list.Remove(1)                    // 2,nil
+	_,_ = list.Remove(0)                    // 1,nil
+	_,_ = list.Remove(0)                    // nil,index 0 is out of bounds
+	_ = list.Empty()                        // true
 	_ = list.Length()                       // 0
-	list.Add(1)                           // [1]
-	list.Clear()                          // []
-	list.Insert(0, 2)                     // [2]
-	list.Insert(0, 1)                     // [1,2]
+	list.Add(1)                             // [1]
+	list.Clear()                            // []
+	list.Insert(0, 2)                       // [2]
+	list.Insert(0, 1)                       // [1,2]
 }
 ```
 
@@ -193,20 +195,20 @@ import (
 
 func main() {
 	list := FixedArrayList.New[int](2)
-	list.Insert(0,1)                      // [1]
-	list.Insert(1,2)                      // [1,2]
-    list.Insert(2)                        // array capacity is full
-	_, _ = list.Get(0)                    // 1,nil
-	_, _ = list.Get(100)                  // nil,the index is out of bounds
-	_ = list.Contains(1)                  // true
-	_ = list.Contains(4)                  // false
-	_,_ = list.Remove(1)                  // 2,nil
-	_,_ = list.Remove(0)                  // 1,nil
-	_,_ = list.Remove(0)                  // nil,index 0 is out of bounds
-	_ = list.Empty()                      // true
-	_ = list.Length()                     // 0
-	list.Add(1)                           // [1]
-	list.Clear()                          // []
+	list.Insert(0,1)                        // [1]
+	list.Insert(1,2)                        // [1,2]
+    list.Insert(2)                          // array capacity is full
+	_, _ = list.Get(0)                      // 1,nil
+	_, _ = list.Get(100)                    // nil,the index is out of bounds
+	_ = list.Contains(1)                    // true
+	_ = list.Contains(4)                    // false
+	_,_ = list.Remove(1)                    // 2,nil
+	_,_ = list.Remove(0)                    // 1,nil
+	_,_ = list.Remove(0)                    // nil,index 0 is out of bounds
+	_ = list.Empty()                        // true
+	_ = list.Length()                       // 0
+	list.Add(1)                             // [1]
+	list.Clear()                            // []
 }
 ```
 
@@ -232,29 +234,29 @@ import (
 
 func main() {
 	list := SinglyLinkedList.New[int]()
-	list.Add(1)                           // [1]
-	list.Add(2,3)                         // [1,2,3]
-	list.Prepend(4)                       // [4,1,2,3]
-    list.Append(5)                        // [4,1,2,3,5]
-	_, _ = list.Get(0)                    // 4,nil
-	_, _ = list.Get(100)                  // nil,the index is out of bounds
-	_ = list.Contains(1)                  // true
-	_ = list.Contains(6)                  // false
-	list.Remove(4)                        // 5,nil
-	list.Remove(3)                        // 3,nil
-	list.Remove(2)                        // 2,nil
-	list.Remove(1)                        // 1,nil
-	list.Remove(0)                        // 4,nil
-	list.Remove(0)                        // nil,the index is out of bounds
-	_ = list.Empty()                      // true
-	_ = list.Length()                     // 0
-	list.Add(1)                           // [1]
-	list.Clear()                          // []
-	list.Insert(0, 2)                     // [2]
-	list.Insert(0, 1)                     // [1,2]
-    list.Update(0, 3)                     // [3,2]
-    list.IndexOf(2)                       // 1
-    list.IndexOf(7)                       // -1
+	list.Add(1)                             // [1]
+	list.Add(2,3)                           // [1,2,3]
+	list.Prepend(4)                         // [4,1,2,3]
+    list.Append(5)                          // [4,1,2,3,5]
+	_, _ = list.Get(0)                      // 4,nil
+	_, _ = list.Get(100)                    // nil,the index is out of bounds
+	_ = list.Contains(1)                    // true
+	_ = list.Contains(6)                    // false
+	list.Remove(4)                          // 5,nil
+	list.Remove(3)                          // 3,nil
+	list.Remove(2)                          // 2,nil
+	list.Remove(1)                          // 1,nil
+	list.Remove(0)                          // 4,nil
+	list.Remove(0)                          // nil,the index is out of bounds
+	_ = list.Empty()                        // true
+	_ = list.Length()                       // 0
+	list.Add(1)                             // [1]
+	list.Clear()                            // []
+	list.Insert(0, 2)                       // [2]
+	list.Insert(0, 1)                       // [1,2]
+    list.Update(0, 3)                       // [3,2]
+    list.IndexOf(2)                         // 1
+    list.IndexOf(7)                         // -1
 }
 ```
 
@@ -270,28 +272,61 @@ import (
 
 func main() {
 	list := DoublyLinkedList.New[int]()
-	list.Add(1)                           // [1]
-	list.Add(2,3)                         // [1,2,3]
-	list.Prepend(4)                       // [4,1,2,3]
-    list.Append(5)                        // [4,1,2,3,5]
-	_, _ = list.Get(0)                    // 4,nil
-	_, _ = list.Get(100)                  // nil,the index is out of bounds
-	_ = list.Contains(1)                  // true
-	_ = list.Contains(6)                  // false
-	list.Remove(4)                        // 5,nil
-	list.Remove(3)                        // 3,nil
-	list.Remove(2)                        // 2,nil
-	list.Remove(1)                        // 1,nil
-	list.Remove(0)                        // 4,nil
-	list.Remove(0)                        // nil,the index is out of bounds
-	_ = list.Empty()                      // true
-	_ = list.Length()                     // 0
-	list.Add(1)                           // [1]
-	list.Clear()                          // []
-	list.Insert(0, 2)                     // [2]
-	list.Insert(0, 1)                     // [1,2]
-    list.Update(0, 3)                     // [3,2]
-    list.IndexOf(2)                       // 1
-    list.IndexOf(7)                       // -1
+	list.Add(1)                             // [1]
+	list.Add(2,3)                           // [1,2,3]
+	list.Prepend(4)                         // [4,1,2,3]
+    list.Append(5)                          // [4,1,2,3,5]
+	_, _ = list.Get(0)                      // 4,nil
+	_, _ = list.Get(100)                    // nil,the index is out of bounds
+	_ = list.Contains(1)                    // true
+	_ = list.Contains(6)                    // false
+	list.Remove(4)                          // 5,nil
+	list.Remove(3)                          // 3,nil
+	list.Remove(2)                          // 2,nil
+	list.Remove(1)                          // 1,nil
+	list.Remove(0)                          // 4,nil
+	list.Remove(0)                          // nil,the index is out of bounds
+	_ = list.Empty()                        // true
+	_ = list.Length()                       // 0
+	list.Add(1)                             // [1]
+	list.Clear()                            // []
+	list.Insert(0, 2)                       // [2]
+	list.Insert(0, 1)                       // [1,2]
+    list.Update(0, 3)                       // [3,2]
+    list.IndexOf(2)                         // 1
+    list.IndexOf(7)                         // -1
+}
+```
+
+### Queue
+A [Queue](https://en.wikipedia.org/wiki/Queue_(abstract_data_type)) is data structure that maintains a sequence of first-in-first-out (FIFO). Typical operations are `enqueue`, `dequeue`, and `front`
+
+```go
+type Queue[T comparable] struct {
+	_list list.List[T]
+}
+```
+
+#### Generic Queue
+```go
+package main
+
+import (
+	"github.com/oyal2/Go-Structures/list/ArrayList"
+	"github.com/oyal2/Go-Structures/queue/Queue"
+)
+
+func main() {
+	Queue.New[int](ArrayList.New[int](10))
+    queue.Enqueue(1)                        // 1
+    queue.Enqueue(2)                        // 1, 2
+    _, _ = queue.Front()                    // 1,nil
+    _, _ = queue.Dequeue()                  // 1, nil
+    _, _ = queue.Dequeue()                  // 2, nil
+    _, _ = queue.Dequeue()                  // nil, index is out of bounds
+    queue.Enqueue(1)                        // 1
+    queue.Clear()                           // empty
+    queue.IsEmpty()                         // true
+    _ = queue.Length()                      // 0
 }
 ```

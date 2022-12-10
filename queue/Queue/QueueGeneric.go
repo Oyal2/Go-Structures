@@ -1,4 +1,4 @@
-package queue
+package Queue
 
 import "github.com/oyal2/Go-Structures/list"
 
@@ -6,7 +6,7 @@ type Queue[T comparable] struct {
 	_list list.List[T]
 }
 
-func NewQueueGeneric[T comparable](list list.List[T]) *Queue[T] {
+func New[T comparable](list list.List[T]) *Queue[T] {
 	return &Queue[T]{
 		_list: list,
 	}
@@ -25,7 +25,7 @@ func (Q *Queue[T]) Dequeue() (T, error) {
 	return Q._list.Remove(0)
 }
 
-func (Q *Queue[T]) isEmpty() bool {
+func (Q *Queue[T]) IsEmpty() bool {
 	return Q._list.Length() == 0
 }
 
