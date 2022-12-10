@@ -13,7 +13,6 @@
 ---
 
 ## 📝 Table of Contents
-- [📝 Table of Contents](#-table-of-contents)
 - [🧐 About ](#-about-)
 - [⚙️ Data Structures ](#️-data-structures-)
   - [Lists](#lists)
