@@ -4,8 +4,8 @@
 <div align="center">
 
   [![Status](https://img.shields.io/badge/status-active-success.svg)]()
-  [![GitHub Issues](https://img.shields.io/github/issues/Oyal2/Go-Structures.svg)](https://github.com/Oyal2/Go-Structures/issues)
-  [![GitHub Pull Requests](https://img.shields.io/github/issues-pr/Oyal2/Go-Structures.svg)](https://github.com/Oyal2/Go-Structures/pulls)
+   [![Go Report Card](https://goreportcard.com/badge/github.com/oyal2/Go-Structures)](https://goreportcard.com/report/github.com/oyal2/Go-Structures)
+  [![GitHub Pull Requests](https://img.shields.io/github/issues-pr/Oyal2/Go-Structures.svg)](https://goreportcard.com/report/github.com/oyal2/Go-Structures)
   ![GitHub Pull Requests](https://img.shields.io/github/go-mod/go-version/oyal2/Go-Structures)
   [![License](https://img.shields.io/badge/license-MIT-blue.svg)](/LICENSE)
 </div>
@@ -13,6 +13,7 @@
 ---
 
 ## 📝 Table of Contents
+- [📝 Table of Contents](#-table-of-contents)
 - [🧐 About ](#-about-)
 - [⚙️ Data Structures ](#️-data-structures-)
   - [Lists](#lists)
