@@ -26,6 +26,10 @@
 - [🎈 Usage ](#-usage-)
   - [List Interface](#list-interface)
     - [ArrayList](#arraylist-1)
+    - [Fixed ArrayList](#fixed-arraylist)
+  - [Node Type](#node-type)
+    - [Singly Linked List](#singly-linked-list)
+    - [Doubly Linked List](#doubly-linked-list)
 
 ## 🧐 About <a name = "about"></a>
 I made this library because Golang has a very limited amount of data structures. I implemented various data structures such as ArrayList, Queue, DoublyLinked List, SinglyLinked List, and many more. There are many complex data structures in this library and some basic ones. All Golang data structures are optimized and are generic classes. 
@@ -34,8 +38,8 @@ I made this library because Golang has a very limited amount of data structures.
 ### Lists
 
 - [x] ArrayList
-- [x] Singly-Linked List
-- [x] Doubly-Linked List
+- [x] Singly Linked List
+- [x] Doubly Linked List
 - [x] Fixed Array List
 
 ### Tree
@@ -148,7 +152,7 @@ type List[T comparable] interface {
 
 #### ArrayList
 
-A list that dynamically grows by n*2.
+A [list](https://en.wikipedia.org/wiki/Dynamic_array) that dynamically grows by n*2.
 ```go
 package main
 
@@ -157,7 +161,7 @@ import (
 )
 
 func main() {
-	list := arraylist.New[int]()
+	list := ArrayList.New[int](3)
 	list.Add(1)                           // [1]
 	list.Add(2,3)                         // [1,2,3]
 	_, _ = list.Get(0)                    // 1,nil
@@ -169,10 +173,125 @@ func main() {
 	_,_ = list.Remove(0)                  // 1,nil
 	_,_ = list.Remove(0)                  // nil,index 0 is out of bounds
 	_ = list.Empty()                      // true
-	_ = list.Size()                       // 0
+	_ = list.Length()                       // 0
 	list.Add(1)                           // [1]
 	list.Clear()                          // []
 	list.Insert(0, 2)                     // [2]
 	list.Insert(0, 1)                     // [1,2]
+}
+```
+
+#### Fixed ArrayList
+
+An immutable ArrayList
+```go
+package main
+
+import (
+    "github.com/oyal2/Go-Structures/list/FixedArrayList"
+)
+
+func main() {
+	list := FixedArrayList.New[int](2)
+	list.Insert(0,1)                      // [1]
+	list.Insert(1,2)                      // [1,2]
+    list.Insert(2)                        // array capacity is full
+	_, _ = list.Get(0)                    // 1,nil
+	_, _ = list.Get(100)                  // nil,the index is out of bounds
+	_ = list.Contains(1)                  // true
+	_ = list.Contains(4)                  // false
+	_,_ = list.Remove(1)                  // 2,nil
+	_,_ = list.Remove(0)                  // 1,nil
+	_,_ = list.Remove(0)                  // nil,index 0 is out of bounds
+	_ = list.Empty()                      // true
+	_ = list.Length()                     // 0
+	list.Add(1)                           // [1]
+	list.Clear()                          // []
+}
+```
+
+### Node Type
+
+```go
+type Node[T comparable] struct {
+	Value T
+	Next  *Node[T]
+	Prev  *Node[T]
+}
+```
+
+#### Singly Linked List
+
+A [List](https://en.wikipedia.org/wiki/Linked_list#Singly_linked_list) where each node contains an element and points to the next node
+```go
+package main
+
+import (
+    "github.com/oyal2/Go-Structures/list/SinglyLinkedList"
+)
+
+func main() {
+	list := SinglyLinkedList.New[int]()
+	list.Add(1)                           // [1]
+	list.Add(2,3)                         // [1,2,3]
+	list.Prepend(4)                       // [4,1,2,3]
+    list.Append(5)                        // [4,1,2,3,5]
+	_, _ = list.Get(0)                    // 4,nil
+	_, _ = list.Get(100)                  // nil,the index is out of bounds
+	_ = list.Contains(1)                  // true
+	_ = list.Contains(6)                  // false
+	list.Remove(4)                        // 5,nil
+	list.Remove(3)                        // 3,nil
+	list.Remove(2)                        // 2,nil
+	list.Remove(1)                        // 1,nil
+	list.Remove(0)                        // 4,nil
+	list.Remove(0)                        // nil,the index is out of bounds
+	_ = list.Empty()                      // true
+	_ = list.Length()                     // 0
+	list.Add(1)                           // [1]
+	list.Clear()                          // []
+	list.Insert(0, 2)                     // [2]
+	list.Insert(0, 1)                     // [1,2]
+    list.Update(0, 3)                     // [3,2]
+    list.IndexOf(2)                       // 1
+    list.IndexOf(7)                       // -1
+}
+```
+
+#### Doubly Linked List
+
+A [List](https://en.wikipedia.org/wiki/Doubly_linked_list) where each node contains an element and points to the next node and the preceeding node.
+```go
+package main
+
+import (
+    "github.com/oyal2/Go-Structures/list/DoublyLinkedList"
+)
+
+func main() {
+	list := DoublyLinkedList.New[int]()
+	list.Add(1)                           // [1]
+	list.Add(2,3)                         // [1,2,3]
+	list.Prepend(4)                       // [4,1,2,3]
+    list.Append(5)                        // [4,1,2,3,5]
+	_, _ = list.Get(0)                    // 4,nil
+	_, _ = list.Get(100)                  // nil,the index is out of bounds
+	_ = list.Contains(1)                  // true
+	_ = list.Contains(6)                  // false
+	list.Remove(4)                        // 5,nil
+	list.Remove(3)                        // 3,nil
+	list.Remove(2)                        // 2,nil
+	list.Remove(1)                        // 1,nil
+	list.Remove(0)                        // 4,nil
+	list.Remove(0)                        // nil,the index is out of bounds
+	_ = list.Empty()                      // true
+	_ = list.Length()                     // 0
+	list.Add(1)                           // [1]
+	list.Clear()                          // []
+	list.Insert(0, 2)                     // [2]
+	list.Insert(0, 1)                     // [1,2]
+    list.Update(0, 3)                     // [3,2]
+    list.IndexOf(2)                       // 1
+    list.IndexOf(7)                       // -1
 }
 ```

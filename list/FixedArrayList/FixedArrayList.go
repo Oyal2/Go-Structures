@@ -56,6 +56,32 @@ func (A *FixedArrayList[T]) Insert(index int, element T) error {
 	return nil
 }
 
+func (A *FixedArrayList[T]) Remove(index int) (value T, err error) {
+	if !(index < A._length && index >= 0) {
+		return value, fmt.Errorf("index [%d] is out of bounds", index)
+	}
+
+	value = A._storage[index]
+	var empty T
+	A._storage[index] = empty
+	if index == A._length-1 {
+		A._length--
+		return
+	}
+
+	for i := index; i < A._length-1; i++ {
+		if A._storage[i+1] != empty {
+			A._storage[i] = A._storage[i+1]
+		} else {
+			break
+		}
+	}
+
+	A._length--
+
+	return
+}
+
 func (A *FixedArrayList[T]) Clear() {
 	A._storage = make([]T, A._length)
 	A._length = 0
