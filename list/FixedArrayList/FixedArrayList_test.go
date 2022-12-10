@@ -1,19 +1,17 @@
-package test_list
+package FixedArrayList
 
 import (
-	"github.com/oyal2/Go-Structures/list/FixedArrayList"
 	"math/rand"
-	"time"
-
 	"testing"
+	"time"
 )
 
-//Test the ArrayList when its fully filled
+// Test the ArrayList when its fully filled
 func TestFillFixedArray(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
 	size := rand.Intn(100)
 	checkArr := make([]int, size)
-	newArr := FixedArrayList.NewFixedArrayList(size)
+	newArr := New[int](size)
 
 	for i := 0; i < size; i++ {
 		randomNum := rand.Intn(1000)
@@ -35,12 +33,12 @@ func TestFillFixedArray(t *testing.T) {
 	}
 }
 
-//Test the get function of the ArrayList
+// Test the get function of the ArrayList
 func TestGetFixedArrayIndex(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
 	size := rand.Intn(100)
 	checkArr := make([]int, size)
-	newArr := FixedArrayList.NewFixedArrayList(size)
+	newArr := New[int](size)
 
 	for i := 0; i < size; i++ {
 		randomNum := rand.Intn(1000)
@@ -62,12 +60,12 @@ func TestGetFixedArrayIndex(t *testing.T) {
 	}
 }
 
-//Test the ArrayList when inserted more than initialized
+// Test the ArrayList when inserted more than initialized
 func TestOverFilledFixedArray(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
 	size := rand.Intn(100)
 	checkArr := make([]int, size)
-	newArr := FixedArrayList.NewFixedArrayList(size)
+	newArr := New[int](size)
 
 	for i := 0; i < size; i++ {
 		randomNum := rand.Intn(1000)
@@ -94,12 +92,12 @@ func TestOverFilledFixedArray(t *testing.T) {
 	}
 }
 
-//Test to update all the numbers with 1's
+// Test to update all the numbers with 1's
 func TestUpdateAllOnesFixedArray(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
 	size := 100
 	checkArr := make([]int, size)
-	newArr := FixedArrayList.NewFixedArrayList(size)
+	newArr := New[int](size)
 
 	for i := 0; i < size; i++ {
 		err := newArr.Insert(newArr.Length(), i)
@@ -121,7 +119,7 @@ func TestUpdateAllOnesFixedArray(t *testing.T) {
 	}
 
 	for i := 0; i < newArr.Length(); i++ {
-		err := newArr.Set(i, 1)
+		err := newArr.Update(i, 1)
 		if err != nil {
 			t.Error(err)
 		}

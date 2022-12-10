@@ -1,8 +1,37 @@
-# Go Structures <img src="https://user-images.githubusercontent.com/13637813/193483325-7b8b64c4-577d-43e1-a47c-ee0b75eb5bd0.png" width=300px align="right" >
+<p align="center"><img  src="https://user-images.githubusercontent.com/13637813/193483325-7b8b64c4-577d-43e1-a47c-ee0b75eb5bd0.png" width=400px>
+</p>
+<h2 align="center" style="border-bottom: none">Go Structures</h2>
+<div align="center">
 
-Golang Data structures
+  [![Status](https://img.shields.io/badge/status-active-success.svg)]()
+  [![GitHub Issues](https://img.shields.io/github/issues/Oyal2/Go-Structures.svg)](https://github.com/Oyal2/Go-Structures/issues)
+  [![GitHub Pull Requests](https://img.shields.io/github/issues-pr/Oyal2/Go-Structures.svg)](https://github.com/Oyal2/Go-Structures/pulls)
+  ![GitHub Pull Requests](https://img.shields.io/github/go-mod/go-version/oyal2/Go-Structures)
+  [![License](https://img.shields.io/badge/license-MIT-blue.svg)](/LICENSE)
+</div>
 
-## Data Structures
+---
+
+## 📝 Table of Contents
+- [📝 Table of Contents](#-table-of-contents)
+- [🧐 About ](#-about-)
+- [⚙️ Data Structures ](#️-data-structures-)
+  - [Lists](#lists)
+  - [Tree](#tree)
+  - [Hashed Data Structures](#hashed-data-structures)
+  - [Heap](#heap)
+  - [Others](#others)
+- [🔧 Benchmarks ](#-benchmarks-)
+  - [ArrayList](#arraylist)
+  - [SinglyLinked List](#singlylinked-list)
+- [🎈 Usage ](#-usage-)
+  - [List Interface](#list-interface)
+    - [ArrayList](#arraylist-1)
+
+## 🧐 About <a name = "about"></a>
+I made this library because Golang has a very limited amount of data structures. I implemented various data structures such as ArrayList, Queue, DoublyLinked List, SinglyLinked List, and many more. There are many complex data structures in this library and some basic ones. All Golang data structures are optimized and are generic classes. 
+
+## ⚙️ Data Structures <a name = "data_structures"></a>
 ### Lists
 
 - [x] ArrayList
@@ -16,7 +45,7 @@ Golang Data structures
 - [ ] Trei
 
 ### Hashed Data Structures
-- [ ] Bloom Filter
+- [x] Bloom Filter
 - [ ] Hash Table
 
 ### Heap
@@ -27,7 +56,7 @@ Golang Data structures
 - [x] Queue
 - [x] Stack
 
-## Benchmarks
+## 🔧 Benchmarks <a name = "benchmarks"></a>
 
 Benchmark Specs 
 ```
@@ -102,4 +131,49 @@ BenchmarkSinglyLinkedListRemove100       	  615418	      1995 ns/op
 BenchmarkSinglyLinkedListRemove1000      	   61380	     19916 ns/op
 BenchmarkSinglyLinkedListRemove10000     	    5454	    205904 ns/op
 BenchmarkSinglyLinkedListRemove100000    	     446	   2540357 ns/op
+```
+
+## 🎈 Usage <a name = "usage"></a>
+
+### List Interface
+
+```go
+type List[T comparable] interface {
+	Get(index int) (T, error)
+	Insert(index int, element T) error
+	Remove(index int) (T, error)
+	Length() int
+    Update(index int, element T) error
+}
+```
+
+#### ArrayList
+
+A list that dynamically grows by n*2.
+```go
+package main
+
+import (
+    "github.com/oyal2/Go-Structures/list/ArrayList"
+)
+
+func main() {
+	list := arraylist.New[int]()
+	list.Add(1)                           // [1]
+	list.Add(2,3)                         // [1,2,3]
+	_, _ = list.Get(0)                    // 1,nil
+	_, _ = list.Get(100)                  // nil,the index is out of bounds
+	_ = list.Contains(1)                  // true
+	_ = list.Contains(4)                  // false
+	_,_ = list.Remove(2)                  // 3,nil
+	_,_ = list.Remove(1)                  // 2,nil
+	_,_ = list.Remove(0)                  // 1,nil
+	_,_ = list.Remove(0)                  // nil,index 0 is out of bounds
+	_ = list.Empty()                      // true
+	_ = list.Size()                       // 0
+	list.Add(1)                           // [1]
+	list.Clear()                          // []
+	list.Insert(0, 2)                     // [2]
+	list.Insert(0, 1)                     // [1,2]
+}
 ```

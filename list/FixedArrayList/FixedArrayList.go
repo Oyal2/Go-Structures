@@ -3,29 +3,32 @@ package FixedArrayList
 import (
 	"errors"
 	"fmt"
+
 	"github.com/oyal2/Go-Structures/list"
+	"github.com/oyal2/Go-Structures/utils"
 )
 
-type FixedArrayList struct {
-	_storage []interface{}
+type FixedArrayList[T utils.Ordered] struct {
+	_storage []T
 	_length  int
 }
 
-func NewFixedArrayList(size int) FixedArrayList {
-	return FixedArrayList{
-		_storage: make([]interface{}, size),
+func New[T utils.Ordered](size int) FixedArrayList[T] {
+	return FixedArrayList[T]{
+		_storage: make([]T, size),
 		_length:  0,
 	}
 }
 
-func (A *FixedArrayList) Get(index int) (interface{}, error) {
+func (A *FixedArrayList[T]) Get(index int) (T, error) {
+	var empty T
 	if list.Require(index, A._length) {
-		return nil, errors.New("the index is out of bounds")
+		return empty, errors.New("the index is out of bounds")
 	}
 	return A._storage[index], nil
 }
 
-func (A *FixedArrayList) Set(index int, element interface{}) error {
+func (A *FixedArrayList[T]) Update(index int, element T) error {
 	if list.Require(index, A._length) {
 		return errors.New("the index is out of bounds")
 	}
@@ -33,7 +36,7 @@ func (A *FixedArrayList) Set(index int, element interface{}) error {
 	return nil
 }
 
-func (A *FixedArrayList) Insert(index int, element interface{}) error {
+func (A *FixedArrayList[T]) Insert(index int, element T) error {
 	if index < 0 || index > A._length {
 		return fmt.Errorf("index [%d] is out of bounds", index)
 	}
@@ -53,4 +56,9 @@ func (A *FixedArrayList) Insert(index int, element interface{}) error {
 	return nil
 }
 
-func (A *FixedArrayList) Length() int { return A._length }
+func (A *FixedArrayList[T]) Clear() {
+	A._storage = make([]T, A._length)
+	A._length = 0
+}
+
+func (A *FixedArrayList[T]) Length() int { return A._length }

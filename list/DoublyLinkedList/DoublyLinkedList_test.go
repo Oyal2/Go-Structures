@@ -11,7 +11,7 @@ func TestDoublyLink(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
 	size := rand.Intn(100)
 	checkArr := make([]int, size)
-	newDl := New()
+	newDl := New[int]()
 
 	for i := 0; i < size; i++ {
 		//randomNum := rand.Intn(1000)
@@ -39,7 +39,7 @@ func TestDoublyLink(t *testing.T) {
 }
 
 func TestCustom(t *testing.T) {
-	newDl := New()
+	newDl := New[int]()
 
 	for i := 0; i < 4; i++ {
 		//randomNum := rand.Intn(1000)
@@ -56,7 +56,7 @@ func TestUpdate(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
 	size := rand.Intn(100)
 	checkArr := make([]int, size)
-	newDl := New()
+	newDl := New[int]()
 
 	for i := 0; i < size; i++ {
 		randomNum := rand.Intn(1000)
@@ -87,7 +87,7 @@ func TestFirstRemove(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
 	size := rand.Intn(100)
 	checkArr := make([]int, size)
-	newDl := New()
+	newDl := New[int]()
 
 	for i := 0; i < size; i++ {
 		randomNum := rand.Intn(1000)
@@ -126,7 +126,7 @@ func TestFirstRemove(t *testing.T) {
 }
 
 func TestListAdd(t *testing.T) {
-	list := New()
+	list := New[string]()
 	list.Add("a")
 	list.Add("b", "c")
 	if actualValue := list.Empty(); actualValue != false {
@@ -141,7 +141,7 @@ func TestListAdd(t *testing.T) {
 }
 
 func TestListAppendAndPrepend(t *testing.T) {
-	list := New()
+	list := New[string]()
 	list.Add("b")
 	list.Prepend("a")
 	list.Append("c")
@@ -163,11 +163,11 @@ func TestListAppendAndPrepend(t *testing.T) {
 }
 
 func TestListRemove(t *testing.T) {
-	list := New()
+	list := New[string]()
 	list.Add("a")
 	list.Add("b", "c")
 	list.Remove(2)
-	if actualValue, ok := list.Get(2); actualValue != nil || ok == nil {
+	if actualValue, ok := list.Get(2); actualValue != "" || ok == nil {
 		t.Errorf("Got %v expected %v", actualValue, nil)
 	}
 	list.Remove(1)
@@ -182,7 +182,7 @@ func TestListRemove(t *testing.T) {
 }
 
 func TestListGet(t *testing.T) {
-	list := New()
+	list := New[string]()
 	list.Add("a")
 	list.Add("b", "c")
 	if actualValue, ok := list.Get(0); actualValue != "a" || ok != nil {
@@ -194,7 +194,7 @@ func TestListGet(t *testing.T) {
 	if actualValue, ok := list.Get(2); actualValue != "c" || ok != nil {
 		t.Errorf("Got %v expected %v", actualValue, "c")
 	}
-	if actualValue, ok := list.Get(3); actualValue != nil || ok == nil {
+	if actualValue, ok := list.Get(3); actualValue != "" || ok == nil {
 		t.Errorf("Got %v expected %v", actualValue, nil)
 	}
 	list.Remove(0)
@@ -204,7 +204,7 @@ func TestListGet(t *testing.T) {
 }
 
 func TestListClear(t *testing.T) {
-	list := New()
+	list := New[string]()
 	list.Add("e", "f", "g", "a", "b", "c", "d")
 	list.Clear()
 	if actualValue := list.Empty(); actualValue != true {
@@ -216,7 +216,7 @@ func TestListClear(t *testing.T) {
 }
 
 func TestListIndexOf(t *testing.T) {
-	list := New()
+	list := New[string]()
 
 	expectedIndex := -1
 	if index := list.IndexOf("a"); index != expectedIndex {
@@ -243,7 +243,7 @@ func TestListIndexOf(t *testing.T) {
 }
 
 func TestListInsert(t *testing.T) {
-	list := New()
+	list := New[string]()
 	list.Insert(0, "b")
 	list.Insert(0, "c")
 	list.Insert(0, "a")
