@@ -17,7 +17,7 @@ func (S *Stack[T]) Push(element T) error {
 	return err
 }
 
-func (S *Stack[T]) Top() (T, error) {
+func (S *Stack[T]) Peek() (T, error) {
 	val, err := S._list.Get(S._list.Length() - 1)
 	return val, err
 }

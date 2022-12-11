@@ -19,7 +19,8 @@
   - [Tree](#tree)
   - [Hashed Data Structures](#hashed-data-structures)
   - [Heap](#heap)
-  - [Others](#others)
+  - [Queue](#queue)
+  - [Stack](#stack)
 - [🔧 Benchmarks ](#-benchmarks-)
   - [ArrayList](#arraylist)
   - [SinglyLinked List](#singlylinked-list)
@@ -30,8 +31,10 @@
   - [Node Type](#node-type)
     - [Singly Linked List](#singly-linked-list)
     - [Doubly Linked List](#doubly-linked-list)
-  - [Queue](#queue)
+  - [Queue](#queue-1)
     - [Generic Queue](#generic-queue)
+  - [Stack](#stack-1)
+    - [Generic Stack](#generic-stack)
 
 ## 🧐 About <a name = "about"></a>
 I made this library because Golang has a very limited amount of data structures. I implemented various data structures such as ArrayList, Queue, DoublyLinked List, SinglyLinked List, and many more. There are many complex data structures in this library and some basic ones. All Golang data structures are optimized and are generic classes. 
@@ -57,8 +60,12 @@ I made this library because Golang has a very limited amount of data structures.
 - [ ] Heap
 - [ ] Fibonacci Heap
 
-### Others
+### Queue
 - [x] Queue
+- [ ] Circular Queue
+- [ ] Priority Queue
+
+### Stack
 - [x] Stack
 
 ## 🔧 Benchmarks <a name = "benchmarks"></a>
@@ -317,7 +324,7 @@ import (
 )
 
 func main() {
-	Queue.New[int](ArrayList.New[int](10))
+	queue := Queue.New[int](ArrayList.New[int](10))
     queue.Enqueue(1)                        // 1
     queue.Enqueue(2)                        // 1, 2
     _, _ = queue.Front()                    // 1,nil
@@ -328,5 +335,38 @@ func main() {
     queue.Clear()                           // empty
     queue.IsEmpty()                         // true
     _ = queue.Length()                      // 0
+}
+```
+
+### Stack
+A [Stack](https://en.wikipedia.org/wiki/Stack_(abstract_data_type)) is data structure that maintains a sequence of last-in, first out (LIFO). Typical operations are `push`, `pop`, and `peek`
+
+```go
+type Stack[T comparable] struct {
+	_list list.List[T]
+}
+```
+
+#### Generic Stack
+```go
+package main
+
+import (
+	"github.com/oyal2/Go-Structures/list/ArrayList"
+	"github.com/oyal2/Go-Structures/stack/Stack"
+)
+
+func main() {
+	stack := Stack.New[int](ArrayList.New[int](10))
+    stack.Push(1)                       // 1
+    stack.Push(2)                       // 2,1
+    _, _ = stack.Peek()                 // 1,nil
+    _, _ = stack.Pop()                  // 1,nil
+    _, _ = stack.Pop()                  // 2,nil
+    _, _ = stack.Pop()                  // nil,index is out of bounds
+    stack.Enqueue(1)                    // 1
+    stack.Push()                        // empty
+    stack.IsEmpty()                     // true
+    _ = stack.Length()                  // 0
 }
 ```
