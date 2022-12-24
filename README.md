@@ -15,26 +15,29 @@
 - [📝 Table of Contents](#-table-of-contents)
 - [🧐 About ](#-about-)
 - [⚙️ Data Structures ](#️-data-structures-)
-  - [Lists](#lists)
-  - [Tree](#tree)
-  - [Hashed Data Structures](#hashed-data-structures)
-  - [Heap](#heap)
-  - [Queue](#queue)
-  - [Stack](#stack)
+	- [Lists](#lists)
+	- [Tree](#tree)
+	- [Hashed Data Structures](#hashed-data-structures)
+	- [Heap](#heap)
+	- [Queue](#queue)
+	- [Stack](#stack)
 - [🔧 Benchmarks ](#-benchmarks-)
-  - [ArrayList](#arraylist)
-  - [SinglyLinked List](#singlylinked-list)
+	- [ArrayList](#arraylist)
+	- [SinglyLinked List](#singlylinked-list)
 - [🎈 Usage ](#-usage-)
-  - [List Interface](#list-interface)
-    - [ArrayList](#arraylist-1)
-    - [Fixed ArrayList](#fixed-arraylist)
-  - [Node Type](#node-type)
-    - [Singly Linked List](#singly-linked-list)
-    - [Doubly Linked List](#doubly-linked-list)
-  - [Queue](#queue-1)
-    - [Generic Queue](#generic-queue)
-  - [Stack](#stack-1)
-    - [Generic Stack](#generic-stack)
+	- [Sort Interface](#sort-interface)
+	- [List Interface](#list-interface)
+		- [ArrayList](#arraylist-1)
+		- [Fixed ArrayList](#fixed-arraylist)
+	- [Node Type](#node-type)
+		- [Singly Linked List](#singly-linked-list)
+		- [Doubly Linked List](#doubly-linked-list)
+	- [Queue](#queue-1)
+		- [Generic Queue](#generic-queue)
+	- [Stack](#stack-1)
+		- [Generic Stack](#generic-stack)
+	- [Heap Interface](#heap-interface)
+		- [Binary Heap](#binary-heap)
 
 ## 🧐 About <a name = "about"></a>
 I made this library because Golang has a very limited amount of data structures. I implemented various data structures such as ArrayList, Queue, DoublyLinked List, SinglyLinked List, and many more. There are many complex data structures in this library and some basic ones. All Golang data structures are optimized and are generic classes. 
@@ -57,7 +60,7 @@ I made this library because Golang has a very limited amount of data structures.
 - [ ] Hash Table
 
 ### Heap
-- [ ] Heap
+- [X] Binary Heap
 - [ ] Fibonacci Heap
 
 ### Queue
@@ -146,6 +149,15 @@ BenchmarkSinglyLinkedListRemove100000    	     446	   2540357 ns/op
 ```
 
 ## 🎈 Usage <a name = "usage"></a>
+
+### Sort Interface 
+
+```go 
+type Sort[T Ordered] interface {
+	Less(a, b T) bool
+	Swap(i, j int)
+}
+```
 
 ### List Interface
 
@@ -368,5 +380,59 @@ func main() {
     stack.Push()                        // empty
     stack.IsEmpty()                     // true
     _ = stack.Length()                  // 0
+}
+```
+
+### Heap Interface
+
+```go
+type Heap[T utils.Ordered] interface {
+	utils.Sort[T]
+	Insert() T
+	Extract(element T)
+	Peek() (T, error)
+	ChangeKey() error
+	Contains(element T) bool
+	Length() int
+	IsEmpty() bool
+	Clear()
+}
+```
+
+#### Binary Heap
+
+A [Binary Heap](https://en.wikipedia.org/wiki/Binary_heap) is a heap data structure that maintains the form of a binary tree. Typical operations are `Insert`, `Extract`, and `Decrease Key`. This binary heap implementation uses an array as the storage data structure. 
+
+```go
+type BinaryHeap[T utils.Ordered] struct {
+	_storage    []T
+	_size       int
+	_comparator func(a, b T) bool
+}
+```
+
+```go
+package main
+
+import "github.com/oyal2/Go-Structures/heap/BinaryHeap"
+
+func main() {
+	comparator := func(a, b int) bool {
+		return a < b
+	}
+	binaryHeap := BinaryHeap.New(comparator)
+
+	binaryHeap.Insert(3)                       // [3]
+	binaryHeap.Insert(1,5)                     // [1,3,5]
+	binaryHeap.Peek()                     	   // 1
+	binaryHeap.Extract()                       // 1
+	binaryHeap.Length()                        // 2
+	binaryHeap.Contains(3)                     // true
+	binaryHeap.Contains(1)                     // false
+	binaryHeap.Insert(3)                       // [1,3,5]
+	binaryHeap.ChangeKey(1,6)                  // [3,5,6]
+	binaryHeap.Clear()                  	   // []
+	binaryHeap.IsEmpty()                  	   // true
+	binaryHeap.Extract()                  	   // heap is empty
 }
 ```
