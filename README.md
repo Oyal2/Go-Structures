@@ -388,10 +388,10 @@ func main() {
 ```go
 type Heap[T utils.Ordered] interface {
 	utils.Sort[T]
-	Insert() T
-	Extract(element T)
+	Insert(element T) error
+	Extract() (T, error)
 	Peek() (T, error)
-	ChangeKey() error
+	ChangeKey(element T, newElement T) error
 	Contains(element T) bool
 	Length() int
 	IsEmpty() bool
