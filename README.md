@@ -34,6 +34,7 @@
 		- [Doubly Linked List](#doubly-linked-list)
 	- [Queue](#queue-1)
 		- [Generic Queue](#generic-queue)
+		- [Priority Queue](#priority-queue)
 	- [Stack](#stack-1)
 		- [Generic Stack](#generic-stack)
 	- [Heap](#heap-1)
@@ -66,7 +67,7 @@ I made this library because Golang has a very limited amount of data structures.
 ### Queue
 - [x] Queue
 - [ ] Circular Queue
-- [ ] Priority Queue
+- [X] Priority Queue
 
 ### Stack
 - [x] Stack
@@ -318,6 +319,10 @@ func main() {
 ```
 
 ### Queue
+
+
+#### Generic Queue
+
 A [Queue](https://en.wikipedia.org/wiki/Queue_(abstract_data_type)) is data structure that maintains a sequence of first-in-first-out (FIFO). Typical operations are `enqueue`, `dequeue`, and `front`
 
 ```go
@@ -326,7 +331,6 @@ type Queue[T comparable] struct {
 }
 ```
 
-#### Generic Queue
 ```go
 package main
 
@@ -347,6 +351,46 @@ func main() {
     queue.Clear()                           // empty
     queue.IsEmpty()                         // true
     _ = queue.Length()                      // 0
+}
+```
+
+#### Priority Queue
+
+A [Priority Queue](https://en.wikipedia.org/wiki/Priority_queue) is data structure very similar to a queue, but instead of respecting FIFO, an element with the highest prioirty is dequeued. Typical operations are `enqueue`, `dequeue`, and `front`. The storage type for this queue is only supported with heaps.
+```go
+type PriorityQueue[T utils.Ordered] struct {
+	_storage heap.Heap[T]
+}
+```
+
+
+```go
+package main
+
+import (
+	"github.com/oyal2/Go-Structures/heap/BinaryHeap"
+	"github.com/oyal2/Go-Structures/queue/PriorityQueue"
+)
+
+func main() {
+	comparator := func(a, b int) bool {
+		return a < b
+	}
+	binaryHeap := BinaryHeap.New(comparator)
+	pqueue := PriorityQueue.New[int](binaryHeap)
+
+	pqueue.Enqueue(3)                      // [3]
+	pqueue.Enqueue(1,5)                    // [1,3,5]
+	pqueue.Front()                     	   // 1
+	pqueue.Dequeue()                       // 1
+	pqueue.Length()                        // 2
+	pqueue.Contains(3)                     // true
+	pqueue.Contains(1)                     // false
+	pqueue.Enqueue(3)                      // [1,3,5]
+	pqueue.Update(1,6)                     // [3,5,6]
+	pqueue.Clear()                  	   // []
+	pqueue.IsEmpty()                  	   // true
+	pqueue.Dequeue()                  	   // heap is empty
 }
 ```
 
@@ -388,7 +432,7 @@ func main() {
 ```go
 type Heap[T utils.Ordered] interface {
 	utils.Sort[T]
-	Insert(element T) error
+	Insert(elements ...T) error
 	Extract() (T, error)
 	Peek() (T, error)
 	ChangeKey(element T, newElement T) error
