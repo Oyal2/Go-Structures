@@ -26,7 +26,7 @@
 	- [SinglyLinked List](#singlylinked-list)
 - [🎈 Usage ](#-usage-)
 	- [Sort Interface](#sort-interface)
-	- [List Interface](#list-interface)
+	- [List](#list)
 		- [ArrayList](#arraylist-1)
 		- [Fixed ArrayList](#fixed-arraylist)
 	- [Node Type](#node-type)
@@ -36,7 +36,7 @@
 		- [Generic Queue](#generic-queue)
 	- [Stack](#stack-1)
 		- [Generic Stack](#generic-stack)
-	- [Heap Interface](#heap-interface)
+	- [Heap](#heap-1)
 		- [Binary Heap](#binary-heap)
 
 ## 🧐 About <a name = "about"></a>
@@ -159,7 +159,7 @@ type Sort[T Ordered] interface {
 }
 ```
 
-### List Interface
+### List
 
 ```go
 type List[T comparable] interface {
@@ -383,7 +383,7 @@ func main() {
 }
 ```
 
-### Heap Interface
+### Heap
 
 ```go
 type Heap[T utils.Ordered] interface {
