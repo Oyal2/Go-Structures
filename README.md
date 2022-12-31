@@ -505,16 +505,16 @@ func main() {
 	}
 	fibHeap := FibonacciHeap.New(comparator)
 
-	fibHeap.Insert(3)                       // [3]
-	fibHeap.Insert(1,5)                     // [1,3,5]
+	fibHeap.Insert(3)                     // [3]
+	fibHeap.Insert(1,5)                   // [1,3,5]
 	fibHeap.Peek()                     	  // 1
-	fibHeap.Extract()                       // 1
-	fibHeap.Length()                        // 2
-	fibHeap.Contains(3)                     // true
-	fibHeap.Contains(1)                     // false
-	fibHeap.Insert(3)                       // [1,3,5]
-	fibHeap.ChangeKey(1,6)                  // not applicable to Fibonacci heap
-	fibHeap.Clear()                  	      // []
+	fibHeap.Extract()                     // 1
+	fibHeap.Length()                      // 2
+	fibHeap.Contains(3)                   // true
+	fibHeap.Contains(1)                   // false
+	fibHeap.Insert(3)                     // [1,3,5]
+	fibHeap.ChangeKey(1,6)                // not applicable to Fibonacci heap
+	fibHeap.Clear()                  	  // []
 	fibHeap.IsEmpty()                  	  // true
 	fibHeap.Extract()                  	  // heap is empty
 }
