@@ -39,6 +39,7 @@
 		- [Generic Stack](#generic-stack)
 	- [Heap](#heap-1)
 		- [Binary Heap](#binary-heap)
+		- [Fibonacci Heap](#fibonacci-heap)
 
 ## 🧐 About <a name = "about"></a>
 I made this library because Golang has a very limited amount of data structures. I implemented various data structures such as ArrayList, Queue, DoublyLinked List, SinglyLinked List, and many more. There are many complex data structures in this library and some basic ones. All Golang data structures are optimized and are generic classes. 
@@ -478,5 +479,43 @@ func main() {
 	binaryHeap.Clear()                  	   // []
 	binaryHeap.IsEmpty()                  	   // true
 	binaryHeap.Extract()                  	   // heap is empty
+}
+```
+
+#### Fibonacci Heap
+
+A [Fibonacci Heap](https://en.wikipedia.org/wiki/Fibonacci_heap) is a heap data structure that maintains a collection of trees, called a heap forest. It has faster insert and merge operations compared to a binary heap, and is called a Fibonacci heap because the number of children each node has is always a Fibonacci number. Typical operations are `Insert`, `Extract`, and `Decrease Key`.
+
+```go
+type FibonacciHeap[T utils.Ordered] struct {
+	_min        *Node.Node[T]
+	_size       int
+	_comparator func(a, b T) bool
+}
+```
+
+```go
+package main
+
+import "github.com/oyal2/Go-Structures/heap/FibonacciHeap"
+
+func main() {
+	comparator := func(a, b int) bool {
+		return a < b
+	}
+	fibHeap := FibonacciHeap.New(comparator)
+
+	fibHeap.Insert(3)                       // [3]
+	fibHeap.Insert(1,5)                     // [1,3,5]
+	fibHeap.Peek()                     	  // 1
+	fibHeap.Extract()                       // 1
+	fibHeap.Length()                        // 2
+	fibHeap.Contains(3)                     // true
+	fibHeap.Contains(1)                     // false
+	fibHeap.Insert(3)                       // [1,3,5]
+	fibHeap.ChangeKey(1,6)                  // not applicable to Fibonacci heap
+	fibHeap.Clear()                  	      // []
+	fibHeap.IsEmpty()                  	  // true
+	fibHeap.Extract()                  	  // heap is empty
 }
 ```
