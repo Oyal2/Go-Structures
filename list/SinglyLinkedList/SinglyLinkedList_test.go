@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/oyal2/Go-Structures/queue"
+	"github.com/oyal2/Go-Structures/queue/Queue"
 )
 
 func TestSinglyLink(t *testing.T) {
@@ -108,7 +108,7 @@ func TestFirstRemoveSinglyLink(t *testing.T) {
 }
 
 func Test_RemoveFirst(t *testing.T) {
-	newDl := queue.NewQueueGeneric[int](New[int]())
+	newDl := Queue.New[int](New[int]())
 
 	newDl.Enqueue(1)
 	newDl.Enqueue(2)
