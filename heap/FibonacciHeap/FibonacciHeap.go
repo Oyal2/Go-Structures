@@ -251,8 +251,6 @@ func (FH *FibonacciHeap[T]) Less(a, b T) bool {
 	return FH._comparator(a, b)
 }
 
-func (FH *FibonacciHeap[T]) Swap(i, j *Node.Node[T]) {}
-
 func (FH *FibonacciHeap[T]) Length() int {
 	return FH._size
 }
