@@ -6,7 +6,9 @@ import (
 
 func TestBTree(t *testing.T) {
 	// Create a new B-Tree with a maximum of 3 children per node
-	tree := New[int](3)
+	tree := New(func(a, b int) bool {
+		return a < b
+	}, 3)
 
 	// Insert some elements into the tree
 	tree.Insert(1)
