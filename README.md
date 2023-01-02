@@ -18,6 +18,7 @@
 	- [List](#list)
 	- [Tree](#tree)
 	- [Hashed Data Structures](#hashed-data-structures)
+	- [Probabilistic Data Structures](#probabilistic-data-structures)
 	- [Heap](#heap)
 	- [Queue](#queue)
 	- [Stack](#stack)
@@ -34,6 +35,7 @@
 		- [Doubly Linked List](#doubly-linked-list)
 	- [Queue](#queue-1)
 		- [Generic Queue](#generic-queue)
+	- [Circular Queue](#circular-queue)
 		- [Priority Queue](#priority-queue)
 	- [Stack](#stack-1)
 		- [Generic Stack](#generic-stack)
@@ -52,14 +54,25 @@ I made this library because Golang has a very limited amount of data structures.
 - [x] Doubly Linked List
 - [x] Fixed Array List
 
+
 ### Tree
+- [ ] Van Emde Boas Trees
 - [x] AVL Tree
 - [ ] B-Tree
 - [ ] Trei
+- [ ] Merkel Trees
+- [ ] Log-Structured Merge-Tree
 
 ### Hashed Data Structures
-- [x] Bloom Filter
 - [ ] Hash Table
+- [ ] Ctrie
+
+### Probabilistic Data Structures
+- [x] Bloom Filter
+- [ ] Skip List
+- [ ] HyperLogLog
+- [ ] Count–Min Sketch
+- [ ] Quotient Filter
 
 ### Heap
 - [X] Binary Heap
@@ -67,8 +80,8 @@ I made this library because Golang has a very limited amount of data structures.
 
 ### Queue
 - [x] Queue
-- [ ] Circular Queue
-- [X] Priority Queue
+- [x] Circular Queue
+- [x] Priority Queue
 
 ### Stack
 - [x] Stack
@@ -354,6 +367,47 @@ func main() {
     _ = queue.Length()                      // 0
 }
 ```
+
+### Circular Queue
+A [Circular Queue](https://en.wikipedia.org/wiki/Circular_buffer) is a queue data structure that maintains a sequence of first-in-first-out (FIFO). It is implemented using a circular buffer, which allows it to be efficient in both time and space. Typical operations are `enqueue`, `dequeue`, and `front`.
+
+```go
+type CircularQueue[T comparable] struct {
+	_storage list.List[T]
+	_max     int
+	_front   int
+	_rear    int
+	_size    int
+}
+```
+
+```go
+
+package main
+
+import (
+	"fmt"
+
+	"github.com/oyal2/Go-Structures/list/ArrayList"
+	"github.com/oyal2/Go-Structures/queue/CircularQueue"
+)
+
+func main() {
+	queue := CircularQueue.New[int](ArrayList.New[int](5), 5)
+
+    _ = queue.Enqueue(1)                    // 1
+    _ = queue.Enqueue(2)                    // 1, 2
+    _, _ = queue.Front()                    // 1,nil
+    _, _ = queue.Dequeue()                  // 1, nil
+    _, _ = queue.Dequeue()                  // 2, nil
+    _, _ = queue.Dequeue()                  // nil, queue is empty
+    queue.Enqueue(1)                        // 1
+    queue.Clear()                           // empty
+    queue.IsEmpty()                         // true
+    _ = queue.Length()                      // 0
+	_ = queue.Enqueue(5,1,2,4,6,9)          // queue is full
+```
+
 
 #### Priority Queue
 
