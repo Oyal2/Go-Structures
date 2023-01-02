@@ -197,3 +197,81 @@ func TestSize(t *testing.T) {
 		t.Errorf("Got %v expected %v", actualValue, 9)
 	}
 }
+
+func TestNew(t *testing.T) {
+	hashFuncs := []func(element int, size uint64) uint64{
+		func(element int, size uint64) uint64 { return uint64(element) },
+		func(element int, size uint64) uint64 { return uint64(element) * 2 },
+	}
+	bf := New(hashFuncs, 100)
+
+	if bf.bits.String() != "0" {
+		t.Errorf("Expected bits to be 0, got %s", bf.bits)
+	}
+	if bf.m != 100 {
+		t.Errorf("Expected m to be 100, got %d", bf.m)
+	}
+	if len(bf.hashFuncs) != 2 {
+		t.Errorf("Expected 2 hash functions, got %d", len(bf.hashFuncs))
+	}
+}
+
+func TestNewWithFalsePositiveRate(t *testing.T) {
+	hashFuncs := []func(element int, size uint64) uint64{
+		func(element int, size uint64) uint64 { return uint64(element) },
+		func(element int, size uint64) uint64 { return uint64(element) * 2 },
+	}
+	bf := NewWithFalsePositiveRate(hashFuncs, 0.01, 1000)
+
+	if bf.bits.String() != "0" {
+		t.Errorf("Expected bits to be 0, got %s", bf.bits)
+	}
+	if bf.m == 0 {
+		t.Errorf("Expected m to be non-zero, got %d", bf.m)
+	}
+	if len(bf.hashFuncs) != 2 {
+		t.Errorf("Expected 2 hash functions, got %d", len(bf.hashFuncs))
+	}
+}
+
+func TestContains(t *testing.T) {
+	bf := New([]func(element int, size uint64) uint64{
+		func(element int, size uint64) uint64 { return uint64(element) },
+	}, 100)
+	bf.Add(1)
+
+	if !bf.Contains(1) {
+		t.Error("Expected Contains to return true for 1")
+	}
+	if bf.Contains(2) {
+		t.Error("Expected Contains to return false for 2")
+	}
+}
+
+func TestSize2(t *testing.T) {
+	bf := New([]func(element int, size uint64) uint64{
+		func(element int, size uint64) uint64 { return uint64(element) },
+	}, 100)
+	bf.Add(1)
+	bf.Add(2)
+
+	if bf.Size() != 2 {
+		t.Errorf("Expected size to be 2, got %d", bf.Size())
+	}
+}
+
+func TestClear2(t *testing.T) {
+	bf := New([]func(element int, size uint64) uint64{
+		func(element int, size uint64) uint64 { return uint64(element) },
+	}, 100)
+	bf.Add(1)
+	bf.Add(2)
+	bf.Clear()
+
+	if bf.bits.String() != "0" {
+		t.Errorf("Expected bits to be 0, got %s", bf.bits)
+	}
+	if bf.size != 0 {
+		t.Errorf("Expected size to be 0, got %d", bf.size)
+	}
+}

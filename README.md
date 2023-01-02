@@ -17,8 +17,8 @@
 - [⚙️ Data Structures ](#️-data-structures-)
 	- [List](#list)
 	- [Tree](#tree)
-	- [Hashed Data Structures](#hashed-data-structures)
-	- [Probabilistic Data Structures](#probabilistic-data-structures)
+	- [Hashed](#hashed)
+	- [Probabilistic](#probabilistic)
 	- [Heap](#heap)
 	- [Queue](#queue)
 	- [Stack](#stack)
@@ -35,10 +35,12 @@
 		- [Doubly Linked List](#doubly-linked-list)
 	- [Queue](#queue-1)
 		- [Generic Queue](#generic-queue)
-	- [Circular Queue](#circular-queue)
+		- [Circular Queue](#circular-queue)
 		- [Priority Queue](#priority-queue)
 	- [Stack](#stack-1)
 		- [Generic Stack](#generic-stack)
+	- [Probabilistic](#probabilistic-1)
+		- [Bloom Filter](#bloom-filter)
 	- [Heap](#heap-1)
 		- [Binary Heap](#binary-heap)
 		- [Fibonacci Heap](#fibonacci-heap)
@@ -63,11 +65,11 @@ I made this library because Golang has a very limited amount of data structures.
 - [ ] Merkel Trees
 - [ ] Log-Structured Merge-Tree
 
-### Hashed Data Structures
+### Hashed
 - [ ] Hash Table
 - [ ] Ctrie
 
-### Probabilistic Data Structures
+### Probabilistic
 - [x] Bloom Filter
 - [ ] Skip List
 - [ ] HyperLogLog
@@ -256,6 +258,7 @@ type Node[T comparable] struct {
 }
 ```
 
+
 #### Singly Linked List
 
 A [List](https://en.wikipedia.org/wiki/Linked_list#Singly_linked_list) where each [node](https://github.com/Oyal2/Go-Structures#node-type) contains an element and points to the next node
@@ -293,6 +296,7 @@ func main() {
     list.IndexOf(7)                         // -1
 }
 ```
+
 
 #### Doubly Linked List
 
@@ -368,7 +372,7 @@ func main() {
 }
 ```
 
-### Circular Queue
+#### Circular Queue
 A [Circular Queue](https://en.wikipedia.org/wiki/Circular_buffer) is a queue data structure that maintains a sequence of first-in-first-out (FIFO). It is implemented using a circular buffer, which allows it to be efficient in both time and space. Typical operations are `enqueue`, `dequeue`, and `front`.
 
 ```go
@@ -481,6 +485,57 @@ func main() {
     _ = stack.Length()                  // 0
 }
 ```
+
+### Probabilistic
+
+#### Bloom Filter
+
+A [Bloom Filter](https://en.wikipedia.org/wiki/Bloom_filter) is a probabilistic data structure that is used to test membership of an element in a set. It allows for false positives, but not false negatives.
+
+```go
+type BloomFilter[T utils.Ordered] struct {
+	hashFuncs []func(element T, size uint64) uint64
+	bits      *big.Int
+	m         uint64
+	size      uint64
+}
+```
+
+```go
+package main
+
+import (
+	"math/big"
+	"github.com/oyal2/Go-Structures/BloomFilter"
+)
+
+func hashFunc1(element int, size uint64) uint64 {
+	return uint64(element)
+}
+
+func hashFunc2(element int, size uint64) uint64 {
+	return uint64(element) * 2
+}
+
+func main() {
+	bf := BloomFilter.New[int]([]func(element int, size uint64) uint64{hashFunc1, hashFunc2}, 100)
+	bf.Add(1)
+	bf.Add(2)
+	bf.Contains(1)        // true
+	bf.Contains(2)        // true
+	bf.Contains(3)        // false
+	bf.Size()             // 2
+	bf.Clear()            // empty
+	bf.IsEmpty()          // true
+	bf.Length()           // 0
+	bf2 := BloomFilter.NewWithFalsePositiveRate[int]([]func(element int, size uint64) uint64{hashFunc1, hashFunc2}, 0.01, 1000)
+	bf2.Add(3)
+	bf2.Contains(3)       // true
+	bf2.Contains(4)       // false
+	bf2.Size()            // 1
+}
+```
+
 
 ### Heap
 
