@@ -15,7 +15,7 @@
 - [📝 Table of Contents](#-table-of-contents)
 - [🧐 About ](#-about-)
 - [⚙️ Data Structures ](#️-data-structures-)
-	- [Lists](#lists)
+	- [List](#list)
 	- [Tree](#tree)
 	- [Hashed Data Structures](#hashed-data-structures)
 	- [Heap](#heap)
@@ -26,7 +26,7 @@
 	- [SinglyLinked List](#singlylinked-list)
 - [🎈 Usage ](#-usage-)
 	- [Sort Interface](#sort-interface)
-	- [List](#list)
+	- [List](#list-1)
 		- [ArrayList](#arraylist-1)
 		- [Fixed ArrayList](#fixed-arraylist)
 	- [Node Type](#node-type)
@@ -45,7 +45,7 @@
 I made this library because Golang has a very limited amount of data structures. I implemented various data structures such as ArrayList, Queue, DoublyLinked List, SinglyLinked List, and many more. There are many complex data structures in this library and some basic ones. All Golang data structures are optimized and are generic classes. 
 
 ## ⚙️ Data Structures <a name = "data_structures"></a>
-### Lists
+### List
 
 - [x] ArrayList
 - [x] Singly Linked List
