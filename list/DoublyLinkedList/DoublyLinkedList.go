@@ -41,27 +41,31 @@ func (Dl *DoublyLinkedList[T]) Get(index int) (value T, err error) {
 
 }
 
-func (Dl *DoublyLinkedList[T]) Update(index int, element T) error {
+func (Dl *DoublyLinkedList[T]) Update(index int, element T) (T, error) {
+	var empty T
 	if 0 > index || index >= Dl._numberStored {
-		return errors.New("the index is out of bounds")
+		return empty, errors.New("the index is out of bounds")
 	}
 	if index == Dl._numberStored-1 {
+		empty = Dl._tailNode.Value
 		Dl._tailNode.Value = element
-		return nil
+		return empty, nil
 	}
 
 	if index == 0 {
+		empty = Dl._headNode.Value
 		Dl._headNode.Value = element
-		return nil
+		return empty, nil
 	}
 
 	currentNode := Dl._headNode
 	for i := 0; i < index; i++ {
 		currentNode = currentNode.Next
 	}
+	empty = currentNode.Value
 	currentNode.Value = element
 
-	return nil
+	return empty, nil
 }
 
 func (Dl *DoublyLinkedList[T]) Insert(index int, element T) error {

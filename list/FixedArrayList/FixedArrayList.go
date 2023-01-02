@@ -28,12 +28,14 @@ func (A *FixedArrayList[T]) Get(index int) (T, error) {
 	return A._storage[index], nil
 }
 
-func (A *FixedArrayList[T]) Update(index int, element T) error {
+func (A *FixedArrayList[T]) Update(index int, element T) (T, error) {
+	var empty T
 	if list.Require(index, A._length) {
-		return errors.New("the index is out of bounds")
+		return empty, errors.New("the index is out of bounds")
 	}
+	empty = A._storage[index]
 	A._storage[index] = element
-	return nil
+	return empty, nil
 }
 
 func (A *FixedArrayList[T]) Insert(index int, element T) error {

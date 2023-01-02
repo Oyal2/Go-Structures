@@ -1,6 +1,7 @@
 package ArrayList
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 
@@ -21,20 +22,23 @@ func New[T comparable](size int) *ArrayList[T] {
 	}
 }
 
-func (A *ArrayList[T]) Get(index int) (value T, err error) {
+func (A *ArrayList[T]) Get(index int) (T, error) {
+	var empty T
 	if index < 0 || index >= A._length {
-		return value, errors.New("the index is out of bounds")
+		return empty, errors.New("the index is out of bounds")
 	}
 
 	return A._storage[index], nil
 }
 
-func (A *ArrayList[T]) Update(index int, element T) error {
+func (A *ArrayList[T]) Update(index int, element T) (T, error) {
+	var empty T
 	if index < 0 || index >= A._length {
-		return errors.New("the index is out of bounds")
+		return empty, errors.New("the index is out of bounds")
 	}
+	empty = A._storage[index]
 	A._storage[index] = element
-	return nil
+	return empty, nil
 }
 
 func (A *ArrayList[T]) reserve(newCapacity int) error {
@@ -113,17 +117,17 @@ func (A *ArrayList[T]) IndexOf(element T) int {
 	return -1
 }
 
-func (A *ArrayList[T]) Remove(index int) (value T, err error) {
+func (A *ArrayList[T]) Remove(index int) (T, error) {
+	var value, empty T
 	if !(index < A._length && index >= 0) {
 		return value, fmt.Errorf("index [%d] is out of bounds", index)
 	}
 
 	value = A._storage[index]
-	var empty T
 	A._storage[index] = empty
 	if index == A._length-1 {
 		A._length--
-		return
+		return value, nil
 	}
 
 	for i := index; i < A._length-1; i++ {
@@ -136,7 +140,12 @@ func (A *ArrayList[T]) Remove(index int) (value T, err error) {
 
 	A._length--
 
-	return
+	return value, nil
 }
 
 func (A *ArrayList[T]) Length() int { return A._length }
+
+func (A *ArrayList[T]) Display() (string, error) {
+	b, err := json.Marshal(A._storage)
+	return string(b), err
+}

@@ -17,7 +17,7 @@ func TestSinglyLink(t *testing.T) {
 	for i := 0; i < size; i++ {
 		randomNum := rand.Intn(1000)
 		err := newDl.Insert(newDl.Length(), randomNum)
-		if err != nil {
+		if err != nil { 
 			t.Error(err)
 		}
 		checkArr[i] = randomNum

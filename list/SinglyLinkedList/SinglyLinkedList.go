@@ -33,26 +33,30 @@ func (Sl *SinglyLinkedList[T]) Get(index int) (value T, err error) {
 	return currentNode.Value, nil
 }
 
-func (Sl *SinglyLinkedList[T]) Update(index int, element T) error {
+func (Sl *SinglyLinkedList[T]) Update(index int, element T) (T, error) {
+	var empty T
 	if 0 > index || index >= Sl._numberStored {
-		return errors.New("the index is out of bounds")
+		return empty, errors.New("the index is out of bounds")
 	}
 	if index == Sl._numberStored-1 {
+		Sl._tailNode.Value = empty
 		Sl._tailNode.Value = element
-		return nil
+		return empty, nil
 	}
 
 	if index == 0 {
+		Sl._headNode.Value = empty
 		Sl._headNode.Value = element
-		return nil
+		return empty, nil
 	}
 
 	currentNode := Sl._headNode
 	for i := 0; i != index; i++ {
 		currentNode = currentNode.Next
 	}
+	currentNode.Value = empty
 	currentNode.Value = element
-	return nil
+	return empty, nil
 }
 
 func (Sl *SinglyLinkedList[T]) Insert(index int, element T) error {
