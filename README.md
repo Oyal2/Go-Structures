@@ -63,7 +63,7 @@ I made this library because Golang has a very limited amount of data structures.
 
 ### Heap
 - [X] Binary Heap
-- [ ] Fibonacci Heap
+- [X] Fibonacci Heap
 
 ### Queue
 - [x] Queue
