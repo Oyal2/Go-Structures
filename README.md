@@ -395,17 +395,17 @@ import (
 func main() {
 	queue := CircularQueue.New[int](ArrayList.New[int](5), 5)
 
-    _ = queue.Enqueue(1)                    // 1
-    _ = queue.Enqueue(2)                    // 1, 2
-    _, _ = queue.Front()                    // 1,nil
-    _, _ = queue.Dequeue()                  // 1, nil
-    _, _ = queue.Dequeue()                  // 2, nil
-    _, _ = queue.Dequeue()                  // nil, queue is empty
-    queue.Enqueue(1)                        // 1
-    queue.Clear()                           // empty
-    queue.IsEmpty()                         // true
-    _ = queue.Length()                      // 0
-	_ = queue.Enqueue(5,1,2,4,6,9)          // queue is full
+    _ = cqueue.Enqueue(1)                    // 1
+    _ = cqueue.Enqueue(2)                    // 1, 2
+    _, _ = cqueue.Front()                    // 1,nil
+    _, _ = cqueue.Dequeue()                  // 1, nil
+    _, _ = cqueue.Dequeue()                  // 2, nil
+    _, _ = cqueue.Dequeue()                  // nil, queue is empty
+    cqueue.Enqueue(1)                        // 1
+    cqueue.Clear()                           // empty
+    cqueue.IsEmpty()                         // true
+    _ = cqueue.Length()                      // 0
+	_ = cqueue.Enqueue(5,1,2,4,6,9)          // queue is full
 ```
 
 
