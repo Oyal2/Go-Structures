@@ -7,9 +7,9 @@ import (
 )
 
 type SinglyLinkedList[T comparable] struct {
-	_tailNode     *list.Node[T]
-	_headNode     *list.Node[T]
-	_numberStored int
+	tailNode     *list.Node[T]
+	headNode     *list.Node[T]
+	numberStored int
 }
 
 func New[T comparable]() *SinglyLinkedList[T] {
@@ -17,15 +17,15 @@ func New[T comparable]() *SinglyLinkedList[T] {
 }
 
 func (Sl *SinglyLinkedList[T]) Get(index int) (value T, err error) {
-	if 0 > index || index >= Sl._numberStored {
+	if 0 > index || index >= Sl.numberStored {
 		return value, errors.New("the index is out of bounds")
 	}
-	if index == Sl._numberStored-1 {
+	if index == Sl.numberStored-1 {
 		//Retrieve the tail node value
-		return Sl._tailNode.Value, nil
+		return Sl.tailNode.Value, nil
 	}
 
-	currentNode := Sl._headNode
+	currentNode := Sl.headNode
 	for i := 0; i != index; i++ {
 		currentNode = currentNode.Next
 	}
@@ -35,22 +35,22 @@ func (Sl *SinglyLinkedList[T]) Get(index int) (value T, err error) {
 
 func (Sl *SinglyLinkedList[T]) Update(index int, element T) (T, error) {
 	var empty T
-	if 0 > index || index >= Sl._numberStored {
+	if 0 > index || index >= Sl.numberStored {
 		return empty, errors.New("the index is out of bounds")
 	}
-	if index == Sl._numberStored-1 {
-		Sl._tailNode.Value = empty
-		Sl._tailNode.Value = element
+	if index == Sl.numberStored-1 {
+		Sl.tailNode.Value = empty
+		Sl.tailNode.Value = element
 		return empty, nil
 	}
 
 	if index == 0 {
-		Sl._headNode.Value = empty
-		Sl._headNode.Value = element
+		Sl.headNode.Value = empty
+		Sl.headNode.Value = element
 		return empty, nil
 	}
 
-	currentNode := Sl._headNode
+	currentNode := Sl.headNode
 	for i := 0; i != index; i++ {
 		currentNode = currentNode.Next
 	}
@@ -60,41 +60,41 @@ func (Sl *SinglyLinkedList[T]) Update(index int, element T) (T, error) {
 }
 
 func (Sl *SinglyLinkedList[T]) Insert(index int, element T) error {
-	if 0 > index || index > Sl._numberStored {
+	if 0 > index || index > Sl.numberStored {
 		return errors.New("the index is out of bounds")
 	}
 	newNode := list.Node[T]{Value: element}
 	//If the SL is empty
-	if Sl._numberStored == 0 {
-		Sl._headNode = &newNode
-		Sl._tailNode = &newNode
-		Sl._numberStored++
+	if Sl.numberStored == 0 {
+		Sl.headNode = &newNode
+		Sl.tailNode = &newNode
+		Sl.numberStored++
 		return nil
 	}
 
 	if index == 0 {
-		newNode.Next = Sl._headNode
-		Sl._headNode = &newNode
-		Sl._numberStored++
+		newNode.Next = Sl.headNode
+		Sl.headNode = &newNode
+		Sl.numberStored++
 		return nil
 	}
 
-	if index == Sl._numberStored {
+	if index == Sl.numberStored {
 		//Insert at tail
-		Sl._tailNode.Next = &newNode
-		Sl._tailNode = &newNode
-		Sl._numberStored++
+		Sl.tailNode.Next = &newNode
+		Sl.tailNode = &newNode
+		Sl.numberStored++
 		return nil
 	}
 
-	currentNode := Sl._headNode
+	currentNode := Sl.headNode
 	for i := 0; i != index; i++ {
 		currentNode = currentNode.Next
 	}
 	newNode.Next = currentNode.Next
 	currentNode.Next = &newNode
 
-	Sl._numberStored++
+	Sl.numberStored++
 	return nil
 }
 
@@ -123,7 +123,7 @@ func (Sl *SinglyLinkedList[T]) Append(elements ...T) error {
 }
 
 func (Sl *SinglyLinkedList[T]) Contains(element T) bool {
-	currentNode := Sl._headNode
+	currentNode := Sl.headNode
 	for currentNode != nil {
 		if currentNode.Value == element {
 			return true
@@ -134,7 +134,7 @@ func (Sl *SinglyLinkedList[T]) Contains(element T) bool {
 }
 
 func (Sl *SinglyLinkedList[T]) IndexOf(element T) int {
-	currentNode := Sl._headNode
+	currentNode := Sl.headNode
 	for i := 0; currentNode != nil; i++ {
 		if currentNode.Value == element {
 			return i
@@ -145,9 +145,9 @@ func (Sl *SinglyLinkedList[T]) IndexOf(element T) int {
 }
 
 func (Sl *SinglyLinkedList[T]) Clear() {
-	Sl._headNode = nil
-	Sl._tailNode = nil
-	Sl._numberStored = 0
+	Sl.headNode = nil
+	Sl.tailNode = nil
+	Sl.numberStored = 0
 }
 
 func (Sl *SinglyLinkedList[T]) Empty() bool {
@@ -155,41 +155,41 @@ func (Sl *SinglyLinkedList[T]) Empty() bool {
 }
 
 func (Sl *SinglyLinkedList[T]) Remove(index int) (value T, err error) {
-	if 0 > index || index >= Sl._numberStored {
+	if 0 > index || index >= Sl.numberStored {
 		return value, errors.New("the index is out of bounds")
 	}
 
 	var result T
-	if Sl._numberStored == 1 {
-		result = Sl._headNode.Value
-		Sl._headNode = nil
-		Sl._tailNode = nil
-		Sl._numberStored = 0
+	if Sl.numberStored == 1 {
+		result = Sl.headNode.Value
+		Sl.headNode = nil
+		Sl.tailNode = nil
+		Sl.numberStored = 0
 		return result, nil
 	}
 
 	if index == 0 {
-		result = Sl._headNode.Value
-		Sl._headNode = Sl._headNode.Next
-		Sl._numberStored--
+		result = Sl.headNode.Value
+		Sl.headNode = Sl.headNode.Next
+		Sl.numberStored--
 		return result, nil
 	}
 
-	currentNode := Sl._headNode
+	currentNode := Sl.headNode
 	for e := 0; e != index-1; e, currentNode = e+1, currentNode.Next {
 	}
 
 	result = currentNode.Next.Value
 	currentNode.Next = currentNode.Next.Next
 
-	if index == Sl._numberStored-1 {
-		Sl._tailNode = currentNode
-		Sl._tailNode.Next = nil
+	if index == Sl.numberStored-1 {
+		Sl.tailNode = currentNode
+		Sl.tailNode.Next = nil
 	}
 
-	Sl._numberStored--
+	Sl.numberStored--
 	return result, nil
 
 }
 
-func (Sl *SinglyLinkedList[T]) Length() int { return Sl._numberStored }
+func (Sl *SinglyLinkedList[T]) Length() int { return Sl.numberStored }

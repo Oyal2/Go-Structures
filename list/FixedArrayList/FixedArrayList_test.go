@@ -119,7 +119,7 @@ func TestUpdateAllOnesFixedArray(t *testing.T) {
 	}
 
 	for i := 0; i < newArr.Length(); i++ {
-		err := newArr.Update(i, 1)
+		_, err := newArr.Update(i, 1)
 		if err != nil {
 			t.Error(err)
 		}

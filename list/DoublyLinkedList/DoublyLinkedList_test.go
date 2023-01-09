@@ -68,7 +68,7 @@ func TestUpdate(t *testing.T) {
 	}
 
 	for i := range checkArr {
-		err := newDl.Update(i, i)
+		_, err := newDl.Update(i, i)
 		if err != nil {
 			t.Error(err)
 		}

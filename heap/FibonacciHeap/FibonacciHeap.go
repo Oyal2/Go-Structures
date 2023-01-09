@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"math"
+	"sync"
 
 	"github.com/oyal2/Go-Structures/heap/FibonacciHeap/Node"
 	"github.com/oyal2/Go-Structures/utils"
@@ -13,6 +14,7 @@ type FibonacciHeap[T utils.Ordered] struct {
 	_min        *Node.Node[T]
 	_size       int
 	_comparator func(a, b T) bool
+	sync.RWMutex
 }
 
 func New[T utils.Ordered](comparator func(a, b T) bool) *FibonacciHeap[T] {
@@ -24,6 +26,8 @@ func New[T utils.Ordered](comparator func(a, b T) bool) *FibonacciHeap[T] {
 }
 
 func (FH *FibonacciHeap[T]) Insert(elements ...T) error {
+	FH.Lock()
+	defer FH.Unlock()
 	for _, element := range elements {
 		err := FH.insert_item(&Node.Node[T]{
 			Element: element,
@@ -58,6 +62,8 @@ func (FH *FibonacciHeap[T]) insert_item(node *Node.Node[T]) error {
 }
 
 func (FH *FibonacciHeap[T]) Extract() (returnValue T, err error) {
+	FH.Lock()
+	defer FH.Unlock()
 	if FH._size == 0 {
 		return returnValue, errors.New("empty heap")
 	}
@@ -151,6 +157,8 @@ func (FH *FibonacciHeap[T]) maxDegree() int {
 }
 
 func (FH *FibonacciHeap[T]) Contains(element T) bool {
+	FH.RLock()
+	defer FH.RUnlock()
 	if FH._size == 0 {
 		return false
 	}
@@ -159,6 +167,8 @@ func (FH *FibonacciHeap[T]) Contains(element T) bool {
 }
 
 func (FH *FibonacciHeap[T]) ChangeKey(element T, newElement T) error {
+	FH.Lock()
+	defer FH.Unlock()
 	if FH._size == 0 {
 		return errors.New("empty heap")
 	}
@@ -235,6 +245,8 @@ func (FH *FibonacciHeap[T]) cascadingCut(nodeY *Node.Node[T]) {
 }
 
 func (FH *FibonacciHeap[T]) Peek() (returnValue T, err error) {
+	FH.Lock()
+	defer FH.Unlock()
 	if FH._size == 0 {
 		return returnValue, errors.New("heap is empty")
 	}
@@ -252,15 +264,21 @@ func (FH *FibonacciHeap[T]) Less(a, b T) bool {
 }
 
 func (FH *FibonacciHeap[T]) Length() int {
+	FH.RLock()
+	defer FH.RUnlock()
 	return FH._size
 }
 
 func (FH *FibonacciHeap[T]) Clear() {
+	FH.Lock()
+	defer FH.Unlock()
 	FH._min = nil
 	FH._size = 0
 }
 
 func (FH *FibonacciHeap[T]) Display() {
+	FH.RLock()
+	defer FH.RUnlock()
 	FH.traverseDisplay(FH._min, 0)
 	fmt.Println()
 }
