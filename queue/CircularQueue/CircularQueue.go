@@ -7,47 +7,47 @@ import (
 )
 
 type CircularQueue[T comparable] struct {
-	_storage list.List[T]
-	_max     int
-	_front   int
-	_rear    int
-	_size    int
+	storage list.List[T]
+	max     int
+	front   int
+	rear    int
+	size    int
 }
 
 func New[T comparable](storage list.List[T], max int) *CircularQueue[T] {
 	cq := &CircularQueue[T]{
-		_storage: storage,
-		_max:     max,
-		_front:   -1,
-		_rear:    -1,
+		storage: storage,
+		max:     max,
+		front:   -1,
+		rear:    -1,
 	}
 
 	var empty T
 	for i := 0; i < max; i++ {
-		cq._storage.Insert(i, empty)
+		cq.storage.Insert(i, empty)
 	}
 
 	return cq
 }
 
 func (CQ *CircularQueue[T]) Enqueue(elements ...T) error {
-	if len(elements)+CQ.Length() > CQ._max {
+	if len(elements)+CQ.Length() > CQ.max {
 		return errors.New("queue is full")
 	}
 
 	for _, element := range elements {
 
-		if CQ._front == -1 {
-			CQ._front = 0
+		if CQ.front == -1 {
+			CQ.front = 0
 		}
-		CQ._rear = (CQ._rear + 1) % CQ._max
+		CQ.rear = (CQ.rear + 1) % CQ.max
 
-		_, err := CQ._storage.Update(CQ._rear, element)
+		_, err := CQ.storage.Update(CQ.rear, element)
 		if err != nil {
 			return err
 		}
 
-		CQ._size++
+		CQ.size++
 	}
 
 	return nil
@@ -59,28 +59,28 @@ func (CQ *CircularQueue[T]) Front() (T, error) {
 		return empty, errors.New("queue is empty")
 	}
 
-	return CQ._storage.Get(CQ._front)
+	return CQ.storage.Get(CQ.front)
 }
 
 func (CQ *CircularQueue[T]) Dequeue() (T, error) {
 	var empty T
-	if CQ._size == 0 {
+	if CQ.size == 0 {
 		return empty, errors.New("queue is empty")
 	}
 
-	element, err := CQ._storage.Get(CQ._front)
+	element, err := CQ.storage.Get(CQ.front)
 	if err != nil {
 		return empty, err
 	}
 
-	if CQ._front == CQ._rear {
-		CQ._front = -1
-		CQ._rear = -1
+	if CQ.front == CQ.rear {
+		CQ.front = -1
+		CQ.rear = -1
 	} else {
-		CQ._front = (CQ._front + 1) % CQ._max
+		CQ.front = (CQ.front + 1) % CQ.max
 	}
 
-	CQ._size--
+	CQ.size--
 
 	return element, nil
 }
@@ -90,17 +90,17 @@ func (CQ *CircularQueue[T]) IsEmpty() bool {
 }
 
 func (CQ *CircularQueue[T]) Length() int {
-	return CQ._size
+	return CQ.size
 }
 
 func (CQ *CircularQueue[T]) Clear() {
-	CQ._storage.Clear()
-	CQ._front, CQ._rear = -1, -1
-	CQ._size = 0
+	CQ.storage.Clear()
+	CQ.front, CQ.rear = -1, -1
+	CQ.size = 0
 
 	var empty T
-	for i := 0; i < CQ._max; i++ {
-		CQ._storage.Insert(i, empty)
+	for i := 0; i < CQ.max; i++ {
+		CQ.storage.Insert(i, empty)
 	}
 
 }
