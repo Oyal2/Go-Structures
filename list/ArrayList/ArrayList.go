@@ -9,35 +9,35 @@ import (
 )
 
 type ArrayList[T comparable] struct {
-	_storage []T
-	_length  int
+	storage []T
+	length  int
 	capacity int
 }
 
 func New[T comparable](size int) *ArrayList[T] {
 	return &ArrayList[T]{
-		_storage: make([]T, size),
-		_length:  0,
+		storage: make([]T, size),
+		length:  0,
 		capacity: size,
 	}
 }
 
 func (A *ArrayList[T]) Get(index int) (T, error) {
 	var empty T
-	if index < 0 || index >= A._length {
+	if index < 0 || index >= A.length {
 		return empty, errors.New("the index is out of bounds")
 	}
 
-	return A._storage[index], nil
+	return A.storage[index], nil
 }
 
 func (A *ArrayList[T]) Update(index int, element T) (T, error) {
 	var empty T
-	if index < 0 || index >= A._length {
+	if index < 0 || index >= A.length {
 		return empty, errors.New("the index is out of bounds")
 	}
-	empty = A._storage[index]
-	A._storage[index] = element
+	empty = A.storage[index]
+	A.storage[index] = element
 	return empty, nil
 }
 
@@ -47,36 +47,36 @@ func (A *ArrayList[T]) reserve(newCapacity int) error {
 		return errors.New("the reserve capacity is less than or equal to your original capacity")
 	}
 
-	oldStorage := A._storage
-	A._storage = make([]T, newCapacity)
+	oldStorage := A.storage
+	A.storage = make([]T, newCapacity)
 
 	A.capacity = newCapacity
 	for index, element := range oldStorage {
-		A._storage[index] = element
+		A.storage[index] = element
 	}
 
 	return nil
 }
 
 func (A *ArrayList[T]) Insert(index int, element T) error {
-	if index < 0 || index > A._length {
+	if index < 0 || index > A.length {
 		return fmt.Errorf("index [%d] is out of bounds", index)
 	}
 
-	if A._length == A.capacity {
+	if A.length == A.capacity {
 		err := A.reserve(list.Max(2*A.capacity, 1))
 		if err != nil {
 			return err
 		}
 	}
 
-	i := A._length - 1
+	i := A.length - 1
 	for i > index {
-		A._storage[i+1] = A._storage[i]
+		A.storage[i+1] = A.storage[i]
 		i--
 	}
-	A._storage[index] = element
-	A._length++
+	A.storage[index] = element
+	A.length++
 	return nil
 }
 
@@ -93,13 +93,13 @@ func (A *ArrayList[T]) Add(elements ...T) error {
 
 // Removes all of the elements from this list.
 func (A *ArrayList[T]) Clear() {
-	A._storage = make([]T, A._length)
-	A._length = 0
+	A.storage = make([]T, A.length)
+	A.length = 0
 }
 
 // Contains Returns true if this list contains the specified element.
 func (A *ArrayList[T]) Contains(element T) bool {
-	for _, item := range A._storage {
+	for _, item := range A.storage {
 		if item == element {
 			return true
 		}
@@ -109,7 +109,7 @@ func (A *ArrayList[T]) Contains(element T) bool {
 
 // Returns the index of the first occurrence of the specified element in this list, or -1 if this list does not contain the element.
 func (A *ArrayList[T]) IndexOf(element T) int {
-	for i, item := range A._storage {
+	for i, item := range A.storage {
 		if item == element {
 			return i
 		}
@@ -119,33 +119,33 @@ func (A *ArrayList[T]) IndexOf(element T) int {
 
 func (A *ArrayList[T]) Remove(index int) (T, error) {
 	var value, empty T
-	if !(index < A._length && index >= 0) {
+	if !(index < A.length && index >= 0) {
 		return value, fmt.Errorf("index [%d] is out of bounds", index)
 	}
 
-	value = A._storage[index]
-	A._storage[index] = empty
-	if index == A._length-1 {
-		A._length--
+	value = A.storage[index]
+	A.storage[index] = empty
+	if index == A.length-1 {
+		A.length--
 		return value, nil
 	}
 
-	for i := index; i < A._length-1; i++ {
-		if A._storage[i+1] != empty {
-			A._storage[i] = A._storage[i+1]
+	for i := index; i < A.length-1; i++ {
+		if A.storage[i+1] != empty {
+			A.storage[i] = A.storage[i+1]
 		} else {
 			break
 		}
 	}
 
-	A._length--
+	A.length--
 
 	return value, nil
 }
 
-func (A *ArrayList[T]) Length() int { return A._length }
+func (A *ArrayList[T]) Length() int { return A.length }
 
 func (A *ArrayList[T]) Display() (string, error) {
-	b, err := json.Marshal(A._storage)
+	b, err := json.Marshal(A.storage)
 	return string(b), err
 }

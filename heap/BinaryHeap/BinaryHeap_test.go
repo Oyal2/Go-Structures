@@ -19,7 +19,7 @@ func TestInsert(t *testing.T) {
 		binaryHeap.Insert(val)
 	}
 
-	if binaryHeap._storage[1] != 1 {
+	if binaryHeap.storage[1] != 1 {
 		t.Errorf("Did not get the min value")
 	}
 }
@@ -41,7 +41,7 @@ func TestCrazyInsert(t *testing.T) {
 		binaryHeap.Insert(val)
 	}
 
-	if binaryHeap._storage[1] != sortedNums[0] {
+	if binaryHeap.storage[1] != sortedNums[0] {
 		t.Errorf("Did not get the min value")
 	}
 }
@@ -247,7 +247,7 @@ func TestDecreaseKeyCrazy(t *testing.T) {
 
 	newNum := rand.Intn(1000)
 	indexNum := rand.Intn(len(nums))
-	err = binaryHeap.ChangeKey(binaryHeap._storage[indexNum], newNum)
+	err = binaryHeap.ChangeKey(binaryHeap.storage[indexNum], newNum)
 	if err != nil {
 		t.Error(err)
 	}

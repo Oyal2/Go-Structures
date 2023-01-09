@@ -1,6 +1,8 @@
 package AVLTree
 
 import (
+	"sync"
+
 	"github.com/oyal2/Go-Structures/Tree/AVLTree/Node"
 	"github.com/oyal2/Go-Structures/utils"
 )
@@ -8,6 +10,7 @@ import (
 type AVLTree[T utils.Ordered] struct {
 	_root         *Node.Node[T]
 	_numberStored int64
+	sync.RWMutex
 }
 
 func New[T utils.Ordered]() *AVLTree[T] {
@@ -18,6 +21,8 @@ func New[T utils.Ordered]() *AVLTree[T] {
 }
 
 func (B *AVLTree[T]) Insert(element T) {
+	B.Lock()
+	defer B.Unlock()
 	B._numberStored++
 	if B._root == nil {
 		B._root = Node.New(element)
@@ -27,6 +32,8 @@ func (B *AVLTree[T]) Insert(element T) {
 }
 
 func (B *AVLTree[T]) Remove(element T) (valueReturn T) {
+	B.Lock()
+	defer B.Unlock()
 	if B._root == nil {
 		return valueReturn
 	} else {
@@ -37,6 +44,8 @@ func (B *AVLTree[T]) Remove(element T) (valueReturn T) {
 }
 
 func (B *AVLTree[T]) Traverse() (arr []T) {
+	B.RLock()
+	defer B.RUnlock()
 	if B._root != nil {
 		return B._root.Inorder()
 	}
@@ -45,6 +54,8 @@ func (B *AVLTree[T]) Traverse() (arr []T) {
 }
 
 func (B *AVLTree[T]) Contains(element T) bool {
+	B.RLock()
+	defer B.RUnlock()
 	if B._numberStored == 0 {
 		return false
 	}
@@ -65,5 +76,7 @@ func (B *AVLTree[T]) Contains(element T) bool {
 }
 
 func (B *AVLTree[T]) Length() int64 {
+	B.RLock()
+	defer B.RUnlock()
 	return B._numberStored
 }
