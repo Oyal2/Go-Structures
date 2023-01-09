@@ -4,26 +4,30 @@ import (
 	"errors"
 	"fmt"
 	"math"
+	"sync"
 
 	"github.com/oyal2/Go-Structures/heap/FibonacciHeap/Node"
 	"github.com/oyal2/Go-Structures/utils"
 )
 
 type FibonacciHeap[T utils.Ordered] struct {
-	_min        *Node.Node[T]
-	_size       int
-	_comparator func(a, b T) bool
+	min        *Node.Node[T]
+	size       int
+	comparator func(a, b T) bool
+	sync.RWMutex
 }
 
 func New[T utils.Ordered](comparator func(a, b T) bool) *FibonacciHeap[T] {
 	return &FibonacciHeap[T]{
-		_min:        nil,
-		_size:       0,
-		_comparator: comparator,
+		min:        nil,
+		size:       0,
+		comparator: comparator,
 	}
 }
 
 func (FH *FibonacciHeap[T]) Insert(elements ...T) error {
+	FH.Lock()
+	defer FH.Unlock()
 	for _, element := range elements {
 		err := FH.insert_item(&Node.Node[T]{
 			Element: element,
@@ -31,7 +35,7 @@ func (FH *FibonacciHeap[T]) Insert(elements ...T) error {
 		if err != nil {
 			return err
 		}
-		FH._size++
+		FH.size++
 	}
 	return nil
 }
@@ -39,18 +43,18 @@ func (FH *FibonacciHeap[T]) Insert(elements ...T) error {
 func (FH *FibonacciHeap[T]) insert_item(node *Node.Node[T]) error {
 	node.Degree = 0
 	node.Parent = nil
-	if FH._min == nil {
-		FH._min = node
-		node.Left = FH._min
-		node.Right = FH._min
+	if FH.min == nil {
+		FH.min = node
+		node.Left = FH.min
+		node.Right = FH.min
 	} else {
-		node.Right = FH._min
-		node.Left = FH._min.Left
-		FH._min.Left.Right = node
-		FH._min.Left = node
+		node.Right = FH.min
+		node.Left = FH.min.Left
+		FH.min.Left.Right = node
+		FH.min.Left = node
 		// update the minimum node if necessary
-		if FH._comparator(node.Element, FH._min.Element) {
-			FH._min = node
+		if FH.comparator(node.Element, FH.min.Element) {
+			FH.min = node
 		}
 	}
 
@@ -58,10 +62,12 @@ func (FH *FibonacciHeap[T]) insert_item(node *Node.Node[T]) error {
 }
 
 func (FH *FibonacciHeap[T]) Extract() (returnValue T, err error) {
-	if FH._size == 0 {
+	FH.Lock()
+	defer FH.Unlock()
+	if FH.size == 0 {
 		return returnValue, errors.New("empty heap")
 	}
-	z := FH._min
+	z := FH.min
 
 	if z != nil {
 		childNode := z.Child
@@ -80,12 +86,12 @@ func (FH *FibonacciHeap[T]) Extract() (returnValue T, err error) {
 		z.Right.Left = z.Left
 		z.Child = nil
 		if z == z.Right {
-			FH._min = nil
+			FH.min = nil
 		} else {
-			FH._min = z.Right
+			FH.min = z.Right
 			FH.consolidate()
 		}
-		FH._size--
+		FH.size--
 		returnValue = z.Element
 
 	}
@@ -95,7 +101,7 @@ func (FH *FibonacciHeap[T]) Extract() (returnValue T, err error) {
 func (FH *FibonacciHeap[T]) consolidate() {
 	nodeArr := make([]*Node.Node[T], FH.maxDegree())
 
-	w := FH._min
+	w := FH.min
 	last := w.Left
 	for {
 		rightW := w.Right
@@ -103,7 +109,7 @@ func (FH *FibonacciHeap[T]) consolidate() {
 		d := x.Degree
 		for nodeArr[d] != nil {
 			y := nodeArr[d]
-			if !FH._comparator(x.Element, y.Element) {
+			if !FH.comparator(x.Element, y.Element) {
 				x, y = y, x
 			}
 			FH.heapLink(y, x)
@@ -116,7 +122,7 @@ func (FH *FibonacciHeap[T]) consolidate() {
 		}
 		w = rightW
 	}
-	FH._min = nil
+	FH.min = nil
 
 	for i := 0; i < len(nodeArr); i++ {
 		if nodeArr[i] != nil {
@@ -147,41 +153,45 @@ func (FH *FibonacciHeap[T]) heapLink(yChild, xParent *Node.Node[T]) {
 
 func (FH *FibonacciHeap[T]) maxDegree() int {
 	phi := (1 + math.Sqrt(5)) / 2
-	return int(math.Floor(math.Log(float64(FH._size)) / math.Log(phi)))
+	return int(math.Floor(math.Log(float64(FH.size)) / math.Log(phi)))
 }
 
 func (FH *FibonacciHeap[T]) Contains(element T) bool {
-	if FH._size == 0 {
+	FH.RLock()
+	defer FH.RUnlock()
+	if FH.size == 0 {
 		return false
 	}
 
-	return FH.find(element, FH._min) != nil
+	return FH.find(element, FH.min) != nil
 }
 
 func (FH *FibonacciHeap[T]) ChangeKey(element T, newElement T) error {
-	if FH._size == 0 {
+	FH.Lock()
+	defer FH.Unlock()
+	if FH.size == 0 {
 		return errors.New("empty heap")
 	}
 
-	node := FH.find(element, FH._min)
+	node := FH.find(element, FH.min)
 	if node == nil {
 		return errors.New("element doesnt exist")
 	}
 
-	if !FH._comparator(newElement, element) {
+	if !FH.comparator(newElement, element) {
 		return errors.New("not applicable to heap")
 	}
 
 	node.Element = newElement
 	nodeY := node.Parent
 
-	if nodeY != nil && FH._comparator(node.Element, nodeY.Element) {
+	if nodeY != nil && FH.comparator(node.Element, nodeY.Element) {
 		FH.cut(node, nodeY)
 		FH.cascadingCut(nodeY)
 	}
 
-	if FH._comparator(node.Element, FH._min.Element) {
-		FH._min = node
+	if FH.comparator(node.Element, FH.min.Element) {
+		FH.min = node
 	}
 
 	return nil
@@ -235,33 +245,41 @@ func (FH *FibonacciHeap[T]) cascadingCut(nodeY *Node.Node[T]) {
 }
 
 func (FH *FibonacciHeap[T]) Peek() (returnValue T, err error) {
-	if FH._size == 0 {
+	FH.Lock()
+	defer FH.Unlock()
+	if FH.size == 0 {
 		return returnValue, errors.New("heap is empty")
 	}
 
-	returnValue = FH._min.Element
+	returnValue = FH.min.Element
 	return returnValue, nil
 }
 
 func (FH *FibonacciHeap[T]) IsEmpty() bool {
-	return FH._size == 0
+	return FH.size == 0
 }
 
 func (FH *FibonacciHeap[T]) Less(a, b T) bool {
-	return FH._comparator(a, b)
+	return FH.comparator(a, b)
 }
 
 func (FH *FibonacciHeap[T]) Length() int {
-	return FH._size
+	FH.RLock()
+	defer FH.RUnlock()
+	return FH.size
 }
 
 func (FH *FibonacciHeap[T]) Clear() {
-	FH._min = nil
-	FH._size = 0
+	FH.Lock()
+	defer FH.Unlock()
+	FH.min = nil
+	FH.size = 0
 }
 
 func (FH *FibonacciHeap[T]) Display() {
-	FH.traverseDisplay(FH._min, 0)
+	FH.RLock()
+	defer FH.RUnlock()
+	FH.traverseDisplay(FH.min, 0)
 	fmt.Println()
 }
 

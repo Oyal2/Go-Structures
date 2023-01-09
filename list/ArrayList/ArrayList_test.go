@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-//Test the ArrayList when its fully filled
+// Test the ArrayList when its fully filled
 func TestFillArray(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
 	size := rand.Intn(100)
@@ -34,7 +34,7 @@ func TestFillArray(t *testing.T) {
 	}
 }
 
-//Test the get function of the ArrayList
+// Test the get function of the ArrayList
 func TestGetIndex(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
 	size := rand.Intn(100)
@@ -61,7 +61,7 @@ func TestGetIndex(t *testing.T) {
 	}
 }
 
-//Test the ArrayList when inserted more than initialized
+// Test the ArrayList when inserted more than initialized
 func TestOverFilledArray(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
 	size := rand.Intn(100)
@@ -88,7 +88,7 @@ func TestOverFilledArray(t *testing.T) {
 	}
 }
 
-//Test a filled ArrayList and delete the middle index
+// Test a filled ArrayList and delete the middle index
 func TestDeleteMiddleIndexArray(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
 	size := rand.Intn(100)
@@ -126,7 +126,7 @@ func TestDeleteMiddleIndexArray(t *testing.T) {
 	}
 }
 
-//Test a filled ArrayList and delete the first index
+// Test a filled ArrayList and delete the first index
 func TestDeleteFirstIndexArray(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
 	size := rand.Intn(100)
@@ -164,7 +164,7 @@ func TestDeleteFirstIndexArray(t *testing.T) {
 	}
 }
 
-//Test a filled ArrayList and delete the last index
+// Test a filled ArrayList and delete the last index
 func TestDeleteLastIndexArray(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
 	size := rand.Intn(100)
@@ -202,7 +202,7 @@ func TestDeleteLastIndexArray(t *testing.T) {
 	}
 }
 
-//Test to update all the numbers with 1's
+// Test to update all the numbers with 1's
 func TestUpdateAllOnes(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
 	size := 100
@@ -229,7 +229,7 @@ func TestUpdateAllOnes(t *testing.T) {
 	}
 
 	for i := 0; i < newArr.Length(); i++ {
-		err := newArr.Update(i, 1)
+		_, err := newArr.Update(i, 1)
 		if err != nil {
 			t.Error(err)
 		}

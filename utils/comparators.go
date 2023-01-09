@@ -1,6 +1,6 @@
 package utils
 
-type Sort[T Ordered] interface {
+type Sort[T any] interface {
 	Less(a, b T) bool
 }
 
