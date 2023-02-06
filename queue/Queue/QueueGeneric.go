@@ -38,5 +38,5 @@ func (Q *Queue[T]) Get(index int) (T, error) {
 }
 
 func (Q *Queue[T]) Remove(element T) (T, error) {
-	return Q._list.Remove(Q._list.IndexOf(element))
+	return Q.list.Remove(Q.list.IndexOf(element))
 }
