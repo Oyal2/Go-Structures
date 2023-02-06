@@ -6,6 +6,7 @@ type List[T comparable] interface {
 	Remove(index int) (T, error)
 	Length() int
 	Update(index int, element T) (T, error)
+	IndexOf(element T) int
 	Clear()
 }
 

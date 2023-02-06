@@ -89,4 +89,14 @@ func (A *FixedArrayList[T]) Clear() {
 	A.length = 0
 }
 
+func (A *FixedArrayList[T]) IndexOf(element T) int {
+	for i, item := range A.storage {
+		if item == element {
+			return i
+		}
+	}
+
+	return -1
+}
+
 func (A *FixedArrayList[T]) Length() int { return A.length }
